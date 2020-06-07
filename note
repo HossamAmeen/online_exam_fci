@@ -1,0 +1,2 @@
+add three cloms in exams table (number_easy_question, number_medium_question , number_hard_question)
+add one column in question_exams table (selected)
