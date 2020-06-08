@@ -383,26 +383,22 @@ class DoctorProfileContoller extends Controller
     {
 
 //        $exam=Exam::find($request->exam_id);
-
+        // return $request->all();
         if($request->choose==1)
         {
-//            $questionexam=new QuestionExam();
-//            $questionexam->question_id=$request->question_id;
-//            $questionexam->exam_id=$exam->id;
-//            $questionexam->save();
 
         }else{
 
             $question = new Question();
             $question->QUESTION_TYPE_ID = $request->question_type;
-//            $question->EXAM_ID = $request->exam_id;
+            //            $question->EXAM_ID = $request->exam_id;
             $question->course_id=$request->course_id;
             $question->POINTS = $request->point;
             $question->hard=$request->hard;
             if ($request->question_type == 1) {
                 $question->QUESTION_TEXT = $request->name1;
                 $question->save();
-//            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
+                //            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
                 $question_choice = new Question_choice();
                 $question_choice->QUESTION_ID = $question->id;
                 $question_choice->QUESTION_CHOICE_TEXT = $request->choose_text[0];
@@ -431,17 +427,19 @@ class DoctorProfileContoller extends Controller
             if ($request->question_type == 2) {
                 $question->QUESTION_TEXT = $request->name2;
                 $question->save();
-//            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
+                //            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
+            
+         
                 $question_choice = new Question_choice();
                 $question_choice->QUESTION_ID = $question->id;
                 $question_choice->QUESTION_CHOICE_TEXT = 'True';
-                $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_true;
+                $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_true_false;
                 $question_choice->save();
 
                 $question_choice = new Question_choice();
                 $question_choice->QUESTION_ID = $question->id;
                 $question_choice->QUESTION_CHOICE_TEXT = 'False';
-                $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_false;
+                $question_choice->QUESTION_CHOICE_ISCORRECT = !$request->choose_true_false;
                 $question_choice->save();
 
             }
@@ -479,13 +477,13 @@ class DoctorProfileContoller extends Controller
 
             }
             }
-//            $questionexam=new QuestionExam();
-//            $questionexam->question_id=$question->id;
-//            $questionexam->exam_id=$exam->id;
-//            $questionexam->save();
+            //            $questionexam=new QuestionExam();
+            //            $questionexam->question_id=$question->id;
+            //            $questionexam->exam_id=$exam->id;
+            //            $questionexam->save();
 
         }
-
+        session()->flash('questions' , "add new question successfully");
         return back();
     }
 
@@ -605,13 +603,13 @@ class DoctorProfileContoller extends Controller
                 $question_choice = new Question_choice();
                 $question_choice->QUESTION_ID = $question->id;
                 $question_choice->QUESTION_CHOICE_TEXT = 'True';
-                $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_true;
+                $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_true_false;
                 $question_choice->save();
 
                 $question_choice = new Question_choice();
                 $question_choice->QUESTION_ID = $question->id;
                 $question_choice->QUESTION_CHOICE_TEXT = 'False';
-                $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_false;
+                $question_choice->QUESTION_CHOICE_ISCORRECT = !$request->choose_true_false;
                 $question_choice->save();
 
             }
@@ -686,7 +684,7 @@ class DoctorProfileContoller extends Controller
 
     public function editQuestion(Question $question,Exam $exam)
     {
-//        dd($question,$exam);
+            //        dd($question,$exam);
         $questions_lists = $exam->questionsExams;
         $ilos = Ilos::where('COURSE_ID', $exam->COURSE_ID)->get();
         return view('doctor.editQuestion', compact('ilos', 'questions_lists', 'question','exam'));
@@ -705,26 +703,26 @@ class DoctorProfileContoller extends Controller
                 $c->delete();
             }
         }
-//        dd('sad');
+        //        dd('sad');
 
         if (!$question->ilos->isEmpty()) {
             foreach ($question->ilos as $i) {
                 $i->delete();
             }
         }
-//        dd();
-        //if()
-        //$question->delete();
-        //$question = new Question();
+        //        dd();
+                //if()
+                //$question->delete();
+                //$question = new Question();
         $question->QUESTION_TYPE_ID = $request->question_type;
-//        $question->EXAM_ID = $request->exam_id;
+        //        $question->EXAM_ID = $request->exam_id;
         $question->POINTS = $request->point;
         $question->hard=$request->hard;
 
         if ($request->question_type == 1) {
             $question->QUESTION_TEXT = $request->name1;
             $question->save();
-//            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
+            //            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
             $question_choice = new Question_choice();
             $question_choice->QUESTION_ID = $question->id;
             $question_choice->QUESTION_CHOICE_TEXT = $request->choose_text[0];
@@ -753,17 +751,18 @@ class DoctorProfileContoller extends Controller
         if ($request->question_type == 2) {
             $question->QUESTION_TEXT = $request->name2;
             $question->save();
-//            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
+            //            `QUESTION_ID`, `QUESTION_CHOICE_TEXT`, `QUESTION_CHOICE_ISCORRECT`
+           
             $question_choice = new Question_choice();
             $question_choice->QUESTION_ID = $question->id;
             $question_choice->QUESTION_CHOICE_TEXT = 'True';
-            $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_true;
+            $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_true_false;
             $question_choice->save();
 
             $question_choice = new Question_choice();
             $question_choice->QUESTION_ID = $question->id;
             $question_choice->QUESTION_CHOICE_TEXT = 'False';
-            $question_choice->QUESTION_CHOICE_ISCORRECT = $request->choose_false;
+            $question_choice->QUESTION_CHOICE_ISCORRECT = !$request->choose_true_false;
             $question_choice->save();
 
         }
@@ -820,7 +819,7 @@ class DoctorProfileContoller extends Controller
     public function showExamResultDetial(Request $request)
     {
         $student_cource_exam = StudentExam::where('exam_id', $request->id)->get();
-//        dd($student_cource_exam);
+        //        dd($student_cource_exam);
       $str= '<div class="editable-responsive"> <table class="table table-striped" id="datatable-editable"><tr>
                  <th>Student</th>
                  <th>Course</th>
@@ -830,9 +829,9 @@ class DoctorProfileContoller extends Controller
                  <th><a href="' . route('doctorProfile.exam.downloadallpdf', $request->id) . '" >Download All</a></th>
                 </tr>';
         foreach ($student_cource_exam as $s) {
-//            dd($s->exam);
+            //            dd($s->exam);
             $stud_ques_ans_choices = Stud_ques_ans_choice::where('exam_id', $request->id)->where('student_id', $s->student->id)->get();
-//            dd($stud_ques_ans_choices);
+            //            dd($stud_ques_ans_choices);
             $str .= '<tr>
                     <td>' . $s->student->STUDENT_NAME . '</td>
                     <td>' . $s->exam->course->COURSE_NAME . '</td>

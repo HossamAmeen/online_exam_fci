@@ -114,14 +114,14 @@ class StudentsController extends Controller
                             $user->name = $value[0];
                             $user->email = $value[1];
                             $user->role = 4;
-                            $user->password = bcrypt('123456');
+                            $user->password = bcrypt($value[1]);
                             $user->save();
                             $student = new Student();
                             $student->STUDENT_NAME = $value[0];
                             $student->FACULTY_ID = $request->faculty;
                             $student->DEPARTMENT_ID = $request->department;
                             $student->STUDENT_SSN = $value[1];
-                            $student->STUDENT_PASSWORD = bcrypt('123456');
+                            $student->STUDENT_PASSWORD = bcrypt($value[1]);
                           
                             $student->term = 1;
                             $student->semester = "2020 -2021";
@@ -153,7 +153,7 @@ class StudentsController extends Controller
         if ($user) {
             return back()->withErrors(['error' => 'Email Found Before']);
         }
-//        dd($request->all());
+        //        dd($request->all());
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;

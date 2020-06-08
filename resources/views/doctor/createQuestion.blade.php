@@ -4,6 +4,13 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card-box p-b-0">
+            @if(session('questions') !== null)
+
+
+            <div class="alert alert-success">
+                {{session('questions')}}
+            </div>
+            @endif
             <h4 class="header-title m-t-0 m-b-30">Create Question</h4>
             <form method="post" enctype="multipart/form-data" action="{{route('doctorProfile.question.excel')}}">
               {!! csrf_field() !!}
@@ -39,7 +46,8 @@
                                 <div class="row">
                                     <div class="form-group col-lg-4 m-r-5">
                                         <label for="sel1" class="m-b-15">Question Type</label>
-                                        <select name="question_type" class="form-control select2" id="select-box">
+                                        <select name="question_type" class="form-control select2" id="select-box" 
+                                        onchange="editChooseInput(this.options[this.selectedIndex].value)">
                                             <option value="1">Choose</option>
                                             <option value="2">true and false</option>
                                             <option value="3">Complete</option>
@@ -50,7 +58,7 @@
                                     <div class="form-group col-md-5  m-r-5">
                                         <label for="sel1" class="form-label">Select IIOS *</label>
                                         <select name="ilos[]" class=" form-control select2 select2-multiple"
-                                            multiple="multiple">
+                                            multiple="multiple" required>
                                             @foreach($ilos as $ilo)
                                             <option value="{{$ilo->id}}">{{$ilo->ILO_TEXT}}
                                             </option>
@@ -60,7 +68,7 @@
                                     <div class="form-group col-md-2  m-r-2">
                                         <label for="sel1" class="form-label">Point *</label>
                                         <input type="text" name="point" parsley-trigger="change"
-                                            class="form-control select2">
+                                            class="form-control select2" required>
                                     </div>
                                     <div class="form-group col-md-2  m-r-2">
                                         <label for="sel1" class="form-label">image</label>
@@ -72,7 +80,7 @@
                                     <div class="form-group col-lg-12">
                                         <label for="userName">Enter Question</label>
                                         <textarea name="name1" class="form-control" parsley-trigger="change"
-                                            class="form-control" id="Question"></textarea>
+                                            class="form-control" id="Question" required></textarea>
 
                                     </div>
                                     <div class="row">
@@ -80,12 +88,12 @@
                                             <div class="">
                                                 {{--<input  name="choose_answer_1[]" type="hidden" value="0">--}}
 
-                                                <input name="choose_answer_1" type="radio" value="1">
+                                                <input name="choose_answer_1" type="radio" value="1" >
 
                                                 <label for="checkbox1">
                                                     Enter Choose
                                                     <input type="text" name="choose_text[]" parsley-trigger="change"
-                                                        class="form-control" id="Question">
+                                                        class="form-control" id="Question" >
                                                 </label>
                                             </div>
                                             <div class="form-group">
@@ -98,7 +106,7 @@
                                             <div class="">
                                                 {{--<input  name="choose_answer_1[]" type="hidden" value="0">--}}
 
-                                                <input id="checkbox1" name="choose_answer_1" type="radio" value="2">
+                                                <input id="checkbox1" name="choose_answer_1" type="radio" value="2" >
                                                 {{--<input id="" name="choose_answer[]" type="hidden" value="0">--}}
 
                                                 <label for="checkbox1">
@@ -117,7 +125,7 @@
                                             <div class="">
                                                 {{--<input  name="choose_answer_1[]" type="hidden" value="0">--}}
 
-                                                <input id="checkbox1" name="choose_answer_1" type="radio" value="3">
+                                                <input id="checkbox1" name="choose_answer_1" type="radio" value="3" >
                                                 {{--<input id="" name="choose_answer[]" type="hidden" value="0">--}}
 
                                                 <label for="checkbox1">
@@ -136,7 +144,7 @@
                                             <div class="">
                                                 {{--<input  name="choose_answer_1[]" type="hidden" value="0">--}}
 
-                                                <input id="checkbox1" name="choose_answer_1" type="radio" value="4">
+                                                <input id="checkbox1" name="choose_answer_1" type="radio" value="4" >
                                                 {{--<input id="" name="choose_answer[]" type="hidden" value="0">--}}
 
                                                 <label for="checkbox1">
@@ -165,26 +173,25 @@
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-lg-3 m-r-5">
-                                            <div class="checkbox checkbox-primary">
+                                            
+                                            <div class="">
 
-                                                <input name="choose_true" type="hidden" value="0">
+                                                <input name="choose_true_false" id="" value="1" type="radio" checked>
 
-                                                <input name="choose_true" id="checkbox5" value="1" type="checkbox">
-
-                                                <label for="checkbox5">
+                                                <label for="">
                                                     True
-
+    
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-3 m-r-5">
-                                            <div class="checkbox checkbox-primary">
+                                            <div class="">
 
-                                                <input name="choose_false" type="hidden" value="0">
+                                                {{-- <input name="choose_false" type="hidden" value="0"> --}}
 
-                                                <input name="choose_false" id="checkbox6" value="1" type="checkbox">
+                                                <input name="choose_true_false" id="" value="0" type="radio">
 
-                                                <label for="checkbox6">
+                                                <label for="">
                                                     False
 
                                                 </label>
@@ -383,7 +390,7 @@
                                 <label for="checkbox1">
                                     Enter Choose
                                     <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                        id="Question">
+                                        id="Question" >
                                 </label>
                             </div>
                         </div>
@@ -788,5 +795,15 @@
 
 
         });
+</script>
+<script>
+    editChooseInput(1);
+    function editChooseInput(item){
+        if(item == 1)
+        $("input[name=choose_answer_1]").prop('required',true);
+        else
+        $("input[name=choose_answer_1]").prop('required',false);
+    }
+   
 </script>
 @endsection
