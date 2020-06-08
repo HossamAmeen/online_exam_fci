@@ -25,7 +25,7 @@ class StudentExamsController extends Controller
         $today_date = date('m/d/Y');
         // return auth()->user()->student->id ;
         $exams = StudentExam::where('student_id', auth()->user()->student->id)->get()->pluck('exam_id');
-
+        
         $courses = Student_cource_exam::where('STUDENT_ID', auth()->user()->student->id)
             ->get()->pluck('COURSE_ID');
 

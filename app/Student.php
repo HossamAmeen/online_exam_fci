@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $fillable = ['STUDENT_NAME' ,'STUDENT_SSN','STUDENT_PASSWORD','FACULTY_ID' ,'term','semester','phone','user_id'];
+    protected $fillable = ['STUDENT_NAME' ,'STUDENT_SSN','STUDENT_PASSWORD','FACULTY_ID' ,'DEPARTMENT_ID','term','semester','phone','user_id'];
     public function department()
     {
         return $this->belongsTo('App\Department', 'DEPARTMENT_ID');

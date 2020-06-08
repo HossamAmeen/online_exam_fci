@@ -850,14 +850,14 @@ class DoctorProfileContoller extends Controller
     public function downloadStudentExamPDF(Exam $exam, Student $student, Course $course)
     {
       $stud_ques_ans_choices = Stud_ques_ans_choice::where('exam_id', $exam->id)->where('student_id', $student->id)->get();
-//        dd($stud_ques_ans_choices);
+        //        dd($stud_ques_ans_choices);
       //$pdf=\MPDF::loadview('doctor.showQuestionsPDF', compact('stud_ques_ans_choices', 'exam', 'student', 'course', 'questions'));
      //return $pdf->download($course->COURSE_NAME.'_'.$exam->EXAM_NAME.'_'.$student->STUDENT_NAME.'_'.$student->STUDENT_SSN.'.pdf');
 
      //return view('doctor.showQuestionsPDF', compact('stud_ques_ans_choices', 'exam', 'student', 'course', 'questions'));
       $mpdf = new \Mpdf\Mpdf();
-      $mpdf->WriteHTML(view('doctor.showQuestionsPDF', compact('stud_ques_ans_choices', 'exam', 'student', 'course', 'questions'))->render());
-    $mpdf->Output($course->COURSE_NAME.'_'.$exam->EXAM_NAME.'_'.$student->STUDENT_NAME.'_'.$student->STUDENT_SSN.'.pdf','D');
+      $mpdf->WriteHTML(view('doctor.showQuestionsPDF', compact('stud_ques_ans_choices', 'exam', 'student', 'course'))->render());
+      $mpdf->Output($course->COURSE_NAME.'_'.$exam->EXAM_NAME.'_'.$student->STUDENT_NAME.'_'.$student->STUDENT_SSN.'.pdf','D');
     exit;
     }
     public function downloadAllStudentsExamPDF(Exam $exam)
@@ -927,10 +927,10 @@ class DoctorProfileContoller extends Controller
 
     public function showExamQuestion(Exam $exam, Student $student, Course $course)
     {
-//        $questions=$exam->questions;
+       
         $stud_ques_ans_choices = Stud_ques_ans_choice::where('exam_id', $exam->id)->where('student_id', $student->id)->get();
 //        dd($stud_ques_ans_choices);
-        return view('doctor.showQuestions', compact('stud_ques_ans_choices', 'exam', 'student', 'course', 'questions'));
+        return view('doctor.showQuestions', compact('stud_ques_ans_choices', 'exam', 'student', 'course'));
     }
 
     public function showExamStudentImages(Exam $exam, Student $student)

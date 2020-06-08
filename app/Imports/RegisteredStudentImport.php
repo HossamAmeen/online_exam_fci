@@ -3,6 +3,7 @@
 namespace App\Imports;
 use App\User;
 use App\Student;
+use App\Course;
 use App\Student_cource_exam;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -19,8 +20,9 @@ class RegisteredStudentImport implements ToModel , WithStartRow
     {
 
         $student = Student::where('STUDENT_SSN' , $row[1] )->first();
+        $course = Course::find(request('course_id'));
         if($student === null){
-
+            
             $user = new User();
                             $user->name =  $row[0];
                             $user->email = $row[1];
@@ -33,11 +35,13 @@ class RegisteredStudentImport implements ToModel , WithStartRow
                 'STUDENT_SSN'  => $row[1] ,
                 'STUDENT_PASSWORD' => bcrypt($row[1]) , 
                 'FACULTY_ID' => request('faculty'),
+                'DEPARTMENT_ID' =>$course->DEPARTMENT_ID,
                 'term' => 2 ,
                 'semester'=>'2019 -2020',
                 'phone'=>"01",
                 'user_id' => $user->id
             ]);
+            session()->flash('addStudent', 'add new student successfully');
         }
         if(! Student_cource_exam::where('STUDENT_ID' , $student->id)->where('COURSE_ID' , request('course_id'))->first() )
         {

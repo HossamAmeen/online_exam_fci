@@ -50,6 +50,13 @@
                     @endforeach
 
                     @endif
+                    @if(session('addStudent') !== null)
+
+
+                    <div class="alert alert-success">
+                        {{session('addStudent')}}
+                    </div>
+                    @endif
                     @if(session('status') !== null)
 
 

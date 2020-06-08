@@ -48,7 +48,7 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td><input type="submit" class="btn btn-primary"></td>
+                                    {{-- <td><input type="submit" class="btn btn-primary"></td> --}}
 
                                 </tr>
 
