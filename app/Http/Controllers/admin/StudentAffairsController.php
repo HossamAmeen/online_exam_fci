@@ -24,7 +24,7 @@ class StudentAffairsController extends Controller
         if($user){
             return back()->withErrors(['error'=>'Email Found Before']);
         }
-//        dd($request->all());
+        //        dd($request->all());
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -41,9 +41,36 @@ class StudentAffairsController extends Controller
         return redirect()->route('studentAffairs.index');
     }//end of store
 
+    public function store_custom(Request $request)
+    {
+        
+            $user=User::where('email', $request->email)->first();
+            if($user){
+                return back()->withErrors(['error'=>'Email Found Before']);
+            }
+            //        dd($request->all());
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role = 5;
+            $user->password = bcrypt($request->password);
+            $user->save();
+            // $sa = new Sa();
+            // $sa->SA_NAME = $request->name;
+            // $sa->SA_FACULTY_ID = $request->collage;
+            // $sa->SA_PASSWORD = bcrypt($request->password);
+            // $sa->user_id = $user->id;
+            // $sa->save();
+            session()->flash('add' , 'add new Student Affairs successfully');
+            return redirect()->route('studentAffairs.index');
+        
+        
+        
+       
+    }
     public function update(StudentAffairsRequest $request, Sa $sa)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $user=$sa->user;
         $user->name = $request->name;
         $user->email = $request->email;

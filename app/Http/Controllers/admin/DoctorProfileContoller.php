@@ -366,9 +366,10 @@ class DoctorProfileContoller extends Controller
     }
     public function createBankQuestion(){
 
-//        dd($exam,$exam->questionsExams);
-//        dd(1);
+        //        dd($exam,$exam->questionsExams);
+        //        dd(1);
         ////////////    /////////////
+        // return "test";
         $ilos = Ilos::whereIn('COURSE_ID', auth()->user()->staff->courses->pluck('id'))->get();
 
 
@@ -682,12 +683,13 @@ class DoctorProfileContoller extends Controller
 
     }
 
-    public function editQuestion(Question $question,Exam $exam)
+    public function editQuestion(Question $question,Exam $exam = null)
     {
             //        dd($question,$exam);
-        $questions_lists = $exam->questionsExams;
-        $ilos = Ilos::where('COURSE_ID', $exam->COURSE_ID)->get();
-        return view('doctor.editQuestion', compact('ilos', 'questions_lists', 'question','exam'));
+        // $questions_lists = $exam->questionsExams;
+        $ilos = Ilos::where('COURSE_ID', $question->course_id)->get();
+        // return view('doctor.editQuestion', compact('ilos', 'questions_lists', 'question','exam'));
+        return view('doctor.editQuestion', compact('ilos', 'question','exam'));
     }
     public function deleteBankQuestion(Question $question)
     {

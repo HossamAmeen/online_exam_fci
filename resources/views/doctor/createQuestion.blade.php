@@ -316,6 +316,10 @@
                                                     class="btn btn-danger">
                                                     X
                                                 </a>
+                                                <a href="{{route('doctorProfile.question.edit',[$questions_list->id])}}"
+                                                    class="btn btn-warning">
+                                                    Edit
+                                                </a>
                                                 {{--<a href="{{route('doctorProfile.edit.edit',$questions_list->id) }}"--}}
                                                 {{--class="btn btn-warning">--}}
                                                 {{--Edit--}}

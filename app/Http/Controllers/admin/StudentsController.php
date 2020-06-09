@@ -19,10 +19,66 @@ class StudentsController extends Controller
     public function index()
     {
         $faculites = Faculty::all();
-//        $students=Student::all();
         return view('admin.students.index', compact('faculites'));
     }
-
+    public function store_student(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+           
+            $user = User::where('email', $request->snn)->first();
+                if ($user) {
+                    return back()->withErrors(['error' => 'snn Found Before']);
+                  
+                }
+                            $user = new User();
+                            $user->name =  $request->name;
+                            $user->email =  $request->snn;
+                            $user->role = 4;
+                            $user->password =  bcrypt($request->snn);
+                            $user->save();
+                            $student = new Student();
+                            $student->STUDENT_NAME =$request->name;
+                            $student->FACULTY_ID = $request->faculty;
+                            $student->DEPARTMENT_ID = $request->department;
+                            $student->STUDENT_SSN = $request->snn;
+                            $student->STUDENT_PASSWORD = bcrypt($request->snn);
+                          
+                            $student->term = 1;
+                            $student->semester = "2020 -2021";
+                            $student->phone = "010";
+                            $student->user_id = $user->id;
+                            $student->save();
+                            session()->flash('addNewStudent' , "add new student successfully");
+                            
+                            return redirect()->back();
+                            
+        }
+        $faculites = Faculty::all();
+        return view('admin.students.new_store', compact('faculites'));
+    }
+    public function search_student()
+    {
+        $student = Student::where( 'STUDENT_SSN' , request('snn') )->orWhere( 'STUDENT_NAME' , request('name'))->first();
+        $faculites = Faculty::all();
+        if($student)
+       $departments =  Department::where('FACULTY_ID' , $student->FACULTY_ID)->get();
+        // return
+        return view('admin.students.new_store', compact('faculites' , 'student' , 'departments'));
+    }
+    public function update_student(Request $request , $id)
+    {
+        $student = Student::findOrFail($id);
+        $student->STUDENT_NAME =$request->name;
+        $student->DEPARTMENT_ID = $request->department;
+        $student->STUDENT_SSN = $request->snn;
+        $student->save();
+        session()->flash('updateStudent' , "update student successfully");
+        
+        return redirect()->route('new.student.index');
+        
+     
+    }
     public function registerStudent()
     {
       $faculites = Faculty::all();
@@ -48,7 +104,7 @@ class StudentsController extends Controller
           $responsecode=2;
           return view('student.register', compact('faculites','responsecode'));
       }
-//        dd($request->all());
+        //        dd($request->all());
       $user = new User();
       $user->name = $request->name;
       $user->email = $request->email;
@@ -79,9 +135,10 @@ class StudentsController extends Controller
     {
         $faculites = Faculty::all();
         $students = Student::where('DEPARTMENT_ID', $request->department)->get();
-//        dd($students);
+        //        dd($students);
         return view('admin.students.index', compact('faculites', 'students'));
     }
+   
     public function importExcel(Request $request)
     {
         set_time_limit(800000);

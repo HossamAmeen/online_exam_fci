@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -82,24 +81,24 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function
 
         Route::delete('/{department}/destroy', 'admin\DepartmentsController@destroy')->name('departments.destroy');
     });
-//    Route::prefix( 'students' )->group( function () {
-//
-//        Route::get( '/', 'admin\StudentsController@index' )->name( 'students.index' );
-//
-//        Route::get( '/create', 'admin\StudentsController@create' )->name( 'students.create' );
-//
-//        Route::post( '/store', 'admin\StudentsController@store' )->name( 'students.store' );
-//
-//        Route::get( '/{student}/show', 'admin\StudentsController@show' )->name( 'students.show' );
-//
-//        Route::get( '/{student}/edit', 'admin\StudentsController@edit' )->name( 'students.edit' );
-//
-//        Route::put( '/{student}/update', 'admin\StudentsController@update' )->name( 'students.update' );
-//
-//        Route::delete( '/{student}/destroy', 'admin\StudentsController@destroy' )->name( 'students.destroy' );
-//
-//        Route::post( '/get/department', 'admin\StudentsController@getDepartment' )->name( 'students.getDepartment' );
-//    } );
+    //    Route::prefix( 'students' )->group( function () {
+    //
+    //        Route::get( '/', 'admin\StudentsController@index' )->name( 'students.index' );
+    //
+    //        Route::get( '/create', 'admin\StudentsController@create' )->name( 'students.create' );
+    //
+    //        Route::post( '/store', 'admin\StudentsController@store' )->name( 'students.store' );
+    //
+    //        Route::get( '/{student}/show', 'admin\StudentsController@show' )->name( 'students.show' );
+    //
+    //        Route::get( '/{student}/edit', 'admin\StudentsController@edit' )->name( 'students.edit' );
+    //
+    //        Route::put( '/{student}/update', 'admin\StudentsController@update' )->name( 'students.update' );
+    //
+    //        Route::delete( '/{student}/destroy', 'admin\StudentsController@destroy' )->name( 'students.destroy' );
+    //
+    //        Route::post( '/get/department', 'admin\StudentsController@getDepartment' )->name( 'students.getDepartment' );
+    //    } );
     Route::prefix('IlosType')->group(function () {
 
         Route::get('/', 'admin\IlosTypeController@index')->name('IlosType.index');
@@ -189,11 +188,12 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function
 
     });
     Route::prefix('student-affairs')->group(function () {
+       
 
         Route::get('/', 'admin\StudentAffairsController@index')->name('studentAffairs.index');
 
         Route::get('/create', 'admin\StudentAffairsController@create')->name('studentAffairs.create');
-
+        Route::post('/ store-custom-studentAffairs', 'admin\StudentAffairsController@store_custom')->name('studentAffairs.store.custom');
         Route::post('/store', 'admin\StudentAffairsController@store')->name('studentAffairs.store');
 
         Route::get('/{sa}/show', 'admin\StudentAffairsController@show')->name('studentAffairs.show');
@@ -271,7 +271,8 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'doctor']], functio
         Route::post('/question/store', 'admin\DoctorProfileContoller@storeQuestion')->name('doctorProfile.question.store');
 
         Route::get('/question/delete/{question}/{exam}', 'admin\DoctorProfileContoller@deleteQuestion')->name('doctorProfile.question.question');
-        Route::get('/question/edit/{question}/{exam}', 'admin\DoctorProfileContoller@editQuestion')->name('doctorProfile.question.edit');
+        Route::get('/question/edit/{question}/{exam?}', 'admin\DoctorProfileContoller@editQuestion')->name('doctorProfile.question.edit');
+        Route::get('/question/edit/{question}', 'admin\DoctorProfileContoller@editQuestion')->name('doctorProfile.question.edit2');
         Route::post('/question/update/{question}', 'admin\DoctorProfileContoller@updateQuestion')->name('doctorProfile.question.update');
         Route::post('/question/excel', 'admin\DoctorProfileContoller@uploadQuestionExcel')->name('doctorProfile.question.excel');
 
@@ -332,3 +333,9 @@ Route::group(['prefix' => '/student', 'middleware' => ['auth', 'student','histor
     });
 });
 Route::post('/uploadcamimage/{exam}', 'admin\StudentExamsController@uploadStudentExamImage')->name('student.exam.camimage');
+
+// 78978979
+Route::any('/add-new-student', 'admin\StudentsController@store_student')->name('new.student.index');
+Route::any('/search-student', 'admin\StudentsController@search_student');
+Route::any('/update-student/{id}', 'admin\StudentsController@update_student');
+Route::post('/get/department/edit', 'admin\StudentsController@getDepartment');

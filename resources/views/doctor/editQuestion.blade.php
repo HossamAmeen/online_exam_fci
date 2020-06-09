@@ -8,7 +8,9 @@
                 <form id="commentForm" method="post" action="{{route('doctorProfile.question.update',$question->id)}}"
                       class="form-horizontal ">
                     {!! csrf_field() !!}
+                    @if(isset($exam))
                     <input type="hidden" name="exam_id" value="{{$exam->id}}">
+                    @endif
                     <div id="rootwizard" class="pull-in">
                         <ul class="nav nav-tabs navtab-wizard nav-justified bg-muted">
                             {{--<li class="active"><a href="#first" data-toggle="tab">Exam Header</a></li>--}}
@@ -55,8 +57,9 @@
                                                 multiple="multiple"
                                                 required>
                                             @foreach($ilos as $ilo)
-                                                <option @if(in_array($ilo->id,$question->ilos->pluck('ILO_ID')->toArray())) selected
-                                                        @endif value="{{$ilo->id}}">{{$ilo->ILO_TEXT}}
+                                                <option
+                                                 @if(in_array($ilo->id,$question->ilos->pluck('ILO_ID')->toArray())) 
+                                                 selected   @endif value="{{$ilo->id}}">{{$ilo->ILO_TEXT}}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -262,7 +265,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="third">
+                            {{-- <div class="tab-pane fade" id="third">
                                 <div class="form-group clearfix">
                                     <div class="col-lg-12">
                                         <table class="table table-bordered table-responsive">
@@ -290,15 +293,14 @@
                                                         </a>
                                                     </th>
                                                 </tr>
-                                                {{--<li><a href="#" class="on-default  " data-toggle="modal"--}}
-                                                {{--data-target="#con-show-modal"> What does HTML stand for ?</a></li>--}}
+                                                
                                             @endforeach
                                         </table>
 
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <ul class="pager m-b-0 wizard">
                                 <li class="save ">
                                     <button type="submit" class="btn btn-success waves-effect waves-light">Save</button>

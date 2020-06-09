@@ -4,41 +4,61 @@
 
 
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel">
-                <div class="panel-body">
-                  @if ($errors->any())
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel">
+            <div class="panel-body">
+                @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                        <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
-            @endif
+                @endif
 
-                    <div class="col-lg-12">
-                        @include('admin.studentAffairs.create')
-                        <!-- /.modal -->
-                    </div>
-                    <!-- end col -->
-                    <div class="editable-responsive ">
-                        <table class="table table-striped" id="datatable-editable">
-                            <thead>
+                 @if(session('add') !== null)
+
+
+                <div class="alert alert-success">
+                    {{session('add')}}
+                </div>
+                @endif
+                <div class="col-lg-12">
+                    @include('admin.studentAffairs.create')
+                    <form action="{{route('studentAffairs.store.custom')}}" method="POST">
+                        {{ csrf_field() }}
+                        <label for="userName"> user name</label>
+                                <input type="text" name="name" parsley-trigger="change" required
+                                       placeholder="Enter  name" class="form-control" id="userName">
+                                       <label for="userName"> email</label>
+                                       <input type="email" name="email" parsley-trigger="change" required
+                                              placeholder="Enter email" class="form-control" id="userName">
+                                              <label for="userName"> password</label>
+                                              <input type="password" name="password" parsley-trigger="change" required
+                                                     placeholder="Enter  password" class="form-control" id="userName">
+                                                     <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
+                    </form>
+                    <!-- /.modal -->
+                </div>
+                <!-- end col -->
+                <div class="editable-responsive ">
+                    <table class="table table-striped" id="datatable-editable">
+                        <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Colleges</th>
                                 <th>Phone</th>
                                 <th>Actions</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
                             @foreach($sas as $sa)
                             <tr class="gradeX">
                                 <td>{{$sa->SA_NAME}}</td>
                                 <td>
-                                  <label class="blue-label">{{$sa->faculity->FACULTY_NAME}}</label>
+                                    <label class="blue-label">{{$sa->faculity->FACULTY_NAME}}</label>
                                 </td>
                                 <td>
                                     {{$sa->SA_PHONE_NUMBER}}
@@ -47,18 +67,19 @@
                                 <th class="actions">
 
                                     <a href="#" class="on-default " data-toggle="modal"
-                                       data-target="#con-close-modal_{{$sa->id}}">
-                                        <i style="color: white;padding: 8px 10px;background-color: #10c469 !important;border: 1px solid #10c469 !important;
-" class="fa fa-pencil"></i></a>
+                                        data-target="#con-close-modal_{{$sa->id}}">
+                                        <i style="color: white;padding: 8px 10px;
+                                        background-color: #10c469 !important;
+                                        border: 1px solid #10c469 !important;" class="fa fa-pencil"></i></a>
                                     <a href="#" data-toggle="modal" data-target="#dialog_{{$sa->id}}"
-                                       class="on-default ">
+                                        class="on-default ">
                                         <i style="color: white; background-color: #ff5b5b !important; border: 1px solid #ff5b5b !important;padding: 8px 10px;"
-                                           class="fa fa-trash-o">
+                                            class="fa fa-trash-o">
                                         </i>
                                     </a>
                                     <!-- <a  class="on-default btn-info"  > <i class="fa fa-keyboard-o"></i> </a> -->
                                 </th>
-                                  @include('admin.studentAffairs.edit')
+                                @include('admin.studentAffairs.edit')
                                 <?php
                                 $route = route('studentAffairs.destroy', $sa->id);
                                 $id = $sa->id;
@@ -67,22 +88,22 @@
                                 @include('layouts.delete')
                             </tr>
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-                <!-- end: panel body -->
             </div>
-            <!-- end panel -->
+            <!-- end: panel body -->
         </div>
-        <!-- end col-->
+        <!-- end panel -->
     </div>
-    <!-- end row -->
+    <!-- end col-->
+</div>
+<!-- end row -->
 
 @endsection
 @section('script')
-    <script>
-        function department_ajax(val,depart,id){
+<script>
+    function department_ajax(val,depart,id){
             $.ajax({ //Process the form using $.ajax()
                 type      : 'POST', //Method type
                 url       : '{{route('students.getDepartment')}}', //Your form processing file URL
@@ -133,5 +154,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection

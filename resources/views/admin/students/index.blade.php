@@ -15,14 +15,9 @@
                     </ul>
                 </div>
                 @endif
+                
                 <div class="col-lg-12">
-                    @if(session('importStudent') !== null)
-
-
-                    <div class="alert alert-success">
-                        {{session('importStudent')}}
-                    </div>
-                    @endif
+                   
                     <form action="{{route('students.import')}}" method="post" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         <div class="row">
