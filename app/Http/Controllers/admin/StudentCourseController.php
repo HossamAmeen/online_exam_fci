@@ -150,14 +150,7 @@ class StudentCourseController extends Controller
         $courses = Course::whereIn('DEPARTMENT_ID', $departments)->get(['id' , 'COURSE_NAME']);
         $data = '';
        
-        // foreach ($courses as $course) {
-        //     $data .= '<div class="form-group">
-        //                             <div class="checkbox">
-        //                                 <input id="remember-7" type="checkbox" value="' . $course->id . '" name="courses[]" class="individual">
-        //                                 <label for="remember-7"> ' . $course->COURSE_NAME . ' </label>
-        //                             </div>
-        //                         </div>';
-        // }
+      
         return $courses;
 
     }

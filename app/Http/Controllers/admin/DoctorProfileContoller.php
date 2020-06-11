@@ -269,6 +269,7 @@ class DoctorProfileContoller extends Controller
         $exam->time = $request->start_time;
         $exam->allow_time = $request->allow_time;
         $exam->date = $request->date;
+        $exam->end_date = $request->end_date;
         $exam->EXAM_DURATION = $request->time;
         $exam->COURSE_ID = $request->course_id;
         $exam->STAFF_ID = auth()->user()->staff->id;
@@ -307,6 +308,7 @@ class DoctorProfileContoller extends Controller
         $exam->time = $request->start_time;
         $exam->allow_time = $request->allow_time;
         $exam->date = $request->date;
+        $exam->end_date = $request->end_date;
         $exam->EXAM_DURATION = $request->time;
         $exam->COURSE_ID = $request->course_id;
         $exam->STAFF_ID = auth()->user()->staff->id;
@@ -355,11 +357,11 @@ class DoctorProfileContoller extends Controller
 
         $questions_lists = $exam->questionsExams;
 
-//        dd($exam,$exam->questionsExams);
+        //        dd($exam,$exam->questionsExams);
         $ilos = Ilos::where('COURSE_ID', $exam->COURSE_ID)->get();
         /////////////////////////
         $questions=Question::where('course_id',$exam->COURSE_ID)->get();
-//        dd();
+        //        dd();
 
         return view('doctor.createQuestion', compact('questions','exam', 'ilos', 'questions_lists'));
 
@@ -383,7 +385,7 @@ class DoctorProfileContoller extends Controller
     public function StoreBankQuestion(Request $request)
     {
 
-//        $exam=Exam::find($request->exam_id);
+        //        $exam=Exam::find($request->exam_id);
         // return $request->all();
         if($request->choose==1)
         {
@@ -859,7 +861,7 @@ class DoctorProfileContoller extends Controller
       $mpdf = new \Mpdf\Mpdf();
       $mpdf->WriteHTML(view('doctor.showQuestionsPDF', compact('stud_ques_ans_choices', 'exam', 'student', 'course'))->render());
       $mpdf->Output($course->COURSE_NAME.'_'.$exam->EXAM_NAME.'_'.$student->STUDENT_NAME.'_'.$student->STUDENT_SSN.'.pdf','D');
-    exit;
+     exit;
     }
     public function downloadAllStudentsExamPDF(Exam $exam)
     {
@@ -895,29 +897,29 @@ class DoctorProfileContoller extends Controller
         $arr=[];
         $arr[]=['Student','Total'];
         $student_cource_exam = StudentExam::where('exam_id', $exam->id)->get();
-//        dd($student_cource_exam);
-//        $str = '<table class="table table-responsive table-bordered table-striped"><tr>
-//                 <th>Student</th>
-//                 <th>Course</th>
-//                 <th>Question</th>
-//                 <th>Total</th>
-//                </tr>';
+        //        dd($student_cource_exam);
+        //        $str = '<table class="table table-responsive table-bordered table-striped"><tr>
+        //                 <th>Student</th>
+        //                 <th>Course</th>
+        //                 <th>Question</th>
+        //                 <th>Total</th>
+        //                </tr>';
         foreach ($student_cource_exam as $s) {
-//            dd($s->exam);
+        //            dd($s->exam);
             $stud_ques_ans_choices = Stud_ques_ans_choice::where('exam_id', $exam->id)->where('student_id', $s->student->id)->get();
-//            dd($stud_ques_ans_choices);
-//            $str .= '<tr>
-//                    <th>' . $s->student->STUDENT_NAME . '</th>
-//                    <th>' . $s->exam->course->COURSE_NAME . '</th>
-//                    <Th><a href="' . route('doctorProfile.exam.question', [$s->exam_id, $s->student->id, $s->exam->course->id]) . '" >Questions</a></Th>
-//                    <th>' . ($s->Total_Student_Score + $stud_ques_ans_choices->sum('point')) . '</th>
-//                </tr>';
+        //            dd($stud_ques_ans_choices);
+        //            $str .= '<tr>
+        //                    <th>' . $s->student->STUDENT_NAME . '</th>
+        //                    <th>' . $s->exam->course->COURSE_NAME . '</th>
+        //                    <Th><a href="' . route('doctorProfile.exam.question', [$s->exam_id, $s->student->id, $s->exam->course->id]) . '" >Questions</a></Th>
+        //                    <th>' . ($s->Total_Student_Score + $stud_ques_ans_choices->sum('point')) . '</th>
+        //                </tr>';
             $arr[]=[$s->student->STUDENT_NAME ,($s->Total_Student_Score + $stud_ques_ans_choices->sum('point')) ];
         }
 
-//        $str .= '</table>';
-//        return $str;
-//        dd($arr);
+        //        $str .= '</table>';
+        //        return $str;
+        //        dd($arr);
         return Excel::create($exam->EXAM_NAME.'-'.$exam->course->COURSE_NAME, function($excel) use ($arr) {
             $excel->sheet('mySheet', function($sheet) use ($arr)
             {
@@ -930,7 +932,7 @@ class DoctorProfileContoller extends Controller
     {
        
         $stud_ques_ans_choices = Stud_ques_ans_choice::where('exam_id', $exam->id)->where('student_id', $student->id)->get();
-//        dd($stud_ques_ans_choices);
+        //        dd($stud_ques_ans_choices);
         return view('doctor.showQuestions', compact('stud_ques_ans_choices', 'exam', 'student', 'course'));
     }
 
@@ -1032,7 +1034,7 @@ class DoctorProfileContoller extends Controller
     public function reopen(Exam $exam)
     {
         $studentExams = StudentExam::where('exam_id', $exam->id)->get();
-//        dd($studentExams);
+        //        dd($studentExams);
         return view('doctor.reopen',compact('studentExams'));
     }
     public function reopenExam(StudentExam $studentExam)

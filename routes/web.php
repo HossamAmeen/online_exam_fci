@@ -339,3 +339,4 @@ Route::any('/add-new-student', 'admin\StudentsController@store_student')->name('
 Route::any('/search-student', 'admin\StudentsController@search_student');
 Route::any('/update-student/{id}', 'admin\StudentsController@update_student');
 Route::post('/get/department/edit', 'admin\StudentsController@getDepartment');
+Route::get('/get/courses/faculty', 'admin\StudentsController@getCourses')->name('get.courses');

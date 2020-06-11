@@ -23,33 +23,54 @@
                         </thead>
                         <tbody>
 
+                            {{-- @foreach($exams as $k=>$exam)
+
+                                @if($today_date <= $exam->end_date && $today_date >= $exam->date && date("H:i") <=date( "H:i" ,
+                                strtotime('+'.($exam->EXAM_DURATION) . ' minutes', strtotime($exam->time) ) ) )
+                                    @if( $exam->allow_time  <= date("H:i") )
+                                    <tr class="gradeX">
+                                        <th>{{$exam->EXAM_NAME}}</th>
+                                        <th> {{$exam->COURSE_NAME}}</th>
+                                        <th>{{$exam->date}}</th>
+                                        <th class="actions">
+                                            @if( $exam->time <= date("H:i") && date("H:i") <=date( "H:i" ,
+                                                strtotime('+'.($exam->EXAM_DURATION) . ' minutes', strtotime($exam->time) ) )
+                                                )
+                                                <form action="{{route('student.exam.start',$exam->id)}}" method="post">
+                                                    {!! csrf_field() !!}
+                                                    <input type="hidden" value="1" name="sadasdjkasj">
+                                                    <input type="submit" value="Start" class="btn btn-primary">
+                                                </form>
+                                                @endif
+                                                
+                                        </th>
+                                    </tr>
+                                    @endif
+                                @endif
+                            @endforeach --}}
+                            
                             @foreach($exams as $k=>$exam)
 
-                            @if($exam->date == $today_date && date("H:i") <=date( "H:i" ,
-                            strtotime('+'.($exam->EXAM_DURATION) . ' minutes', strtotime($exam->time) ) ) )
-                            @if( $exam->allow_time  <= date("H:i") )
-                            <tr class="gradeX">
-                                <th>{{$exam->EXAM_NAME}}</th>
-                                <th> {{$exam->COURSE_NAME}}</th>
-                                <th>{{$exam->date}}</th>
-                                <th class="actions">
-                                    @if( $exam->time <= date("H:i") && date("H:i") <=date( "H:i" ,
-                                        strtotime('+'.($exam->EXAM_DURATION) . ' minutes', strtotime($exam->time) ) )
-                                        )
-                                        <form action="{{route('student.exam.start',$exam->id)}}" method="post">
-                                            {!! csrf_field() !!}
-                                            <input type="hidden" value="1" name="sadasdjkasj">
-                                            <input type="submit" value="Start" class="btn btn-primary">
-                                        </form>
-                                        @endif
-                                        {{--<a href="{{route('student.exam.start',$exam->id)}}"--}}
-                                        {{--class="btn btn-primary"> Start</a>--}}
-                                </th>
-                            </tr>
+                            @if($today_date <= $exam->end_date && $today_date >= $exam->date )
+                                <tr class="gradeX">
+                                    <th>{{$exam->EXAM_NAME}}</th>
+                                    <th> {{$exam->course ? $exam->course->COURSE_NAME : " "}}</th>
+                                    <th>{{$exam->date}}</th>
+                                    <th class="actions">
+                                       
+                                            <form action="{{route('student.exam.start',$exam->id)}}" method="post">
+                                                {!! csrf_field() !!}
+                                                <input type="hidden" value="1" name="sadasdjkasj">
+                                                <input type="submit" value="Start" class="btn btn-primary">
+                                            </form>
+                                            
+                                            {{--<a href="{{route('student.exam.start',$exam->id)}}"--}}
+                                            {{--class="btn btn-primary"> Start</a>--}}
+                                    </th>
+                                </tr>
+                              
                             @endif
-                            @endif
-                            @endforeach
-
+                        @endforeach
 
                         </tbody>
                     </table>
@@ -60,7 +81,7 @@
                         </tr>
                         @foreach($studentExams as $studentExam)
                         <tr class="gradeX">
-                            <th>{{$studentExam->exam->EXAM_NAME}}</th>
+                            <th>{{$studentExam->exam ? $studentExam->exam->EXAM_NAME : " "}}</th>
                             <th> {{$studentExam->result}}</th>
                         </tr>
                         @endforeach

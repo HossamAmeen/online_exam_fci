@@ -20,7 +20,7 @@ class StudentExamsController extends Controller
 {
     public function index()
     {
-
+        // return "test";
         date_default_timezone_set('Africa/Cairo');
         $today_date = date('m/d/Y');
         // return auth()->user()->student->id ;
@@ -34,6 +34,7 @@ class StudentExamsController extends Controller
         $studentExams = StudentExam::where('student_id', auth()->user()->student->id)
         ->where('result', '!=', 'null')->get();
         //dd($studentExams,$exams);
+        // return $exams;
         return view('student.exams', compact('exams', 'studentExams', 'today_date'));
 
     }
@@ -43,10 +44,10 @@ class StudentExamsController extends Controller
 
         $stude = StudentExam::where('exam_id', $exam->id)->where('student_id', auth()->user()->student->id)->first();
         if (!$stude) {
-
+            date_default_timezone_set('Africa/Cairo');
             $time = Time::where('user_id', auth()->user()->id)->where('exam_id', $exam->id)->first();
 
-            date_default_timezone_set('Africa/Cairo');
+          
             // dd($time);
             // return $time;
             $start_time = date('G:i');
@@ -67,7 +68,7 @@ class StudentExamsController extends Controller
                 $endTime = $time->enddate;
 
             }
-            //dd(date("G:i"), $endTime);
+            // dd(date("G:i"), $endTime);
             if (date("G:i") <= $endTime) {
                 session()->put('endTime', $endTime);
                 $student_questions = ExamStudentModule::where('student_id', auth()->user()->student->id)
@@ -251,8 +252,8 @@ class StudentExamsController extends Controller
                     $s->save();
                 }
 
-                echo "<h1>" . $your_grade . "</h1>";
-                echo 'Exam Ended';
+                // echo "<h1>" . $your_grade . "</h1>";
+                // echo 'Exam Ended';
             }
         } else {
             return redirect()->route('student.index');
@@ -262,7 +263,7 @@ class StudentExamsController extends Controller
     public function answerExam(Request $request, Exam $exam)
     {
         Stud_ques_ans_choice::where('student_id', auth()->user()->student->id)->where('exam_id', $exam->id)->delete();
-//        foreach ($Stud_ques_ans_choices as $r)
+        //        foreach ($Stud_ques_ans_choices as $r)
         //        {
         //            $r->delete();
         //        }
@@ -271,7 +272,7 @@ class StudentExamsController extends Controller
             $choices = 'choice_' . $question->id;
             if ($request->$choices) {
                 foreach ($request->$choices as $ch) {
-//                    if($Stud_ques_ans_choice)
+            //                    if($Stud_ques_ans_choice)
                     //                    {
                     ////                        $Stud_ques_ans_choice = new Stud_ques_ans_choice();
                     //                        $Stud_ques_ans_choice->student_id = auth()->user()->student->id;
@@ -287,7 +288,7 @@ class StudentExamsController extends Controller
                     $Stud_ques_ans_choice->question_id = $question->id;
                     $Stud_ques_ans_choice->choice = $ch;
                     $Stud_ques_ans_choice->save();
-//                    }
+        //                    }
 
                 }
             }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Department;
+use App\Course;
+use App\Student_cource_exam;
 use App\DepartmentClass;
 use App\Faculty;
 use App\Http\Controllers\Controller;
@@ -21,6 +23,7 @@ class StudentsController extends Controller
         $faculites = Faculty::all();
         return view('admin.students.index', compact('faculites'));
     }
+    //////////// new fundtions 
     public function store_student(Request $request)
     {
         if($request->isMethod('post'))
@@ -49,6 +52,13 @@ class StudentsController extends Controller
                             $student->phone = "010";
                             $student->user_id = $user->id;
                             $student->save();
+
+                          
+                            Student_cource_exam::create([ 
+                                'STUDENT_ID' => $student->id ,
+                                "COURSE_ID"  =>request('course_id') ,
+                            ]);
+
                             session()->flash('addNewStudent' , "add new student successfully");
                             
                             return redirect()->back();
@@ -61,10 +71,18 @@ class StudentsController extends Controller
     {
         $student = Student::where( 'STUDENT_SSN' , request('snn') )->orWhere( 'STUDENT_NAME' , request('name'))->first();
         $faculites = Faculty::all();
-        if($student)
-       $departments =  Department::where('FACULTY_ID' , $student->FACULTY_ID)->get();
+        $departments = array();
+        $courses  = array();
+        if($student){
+            $departments =  Department::where('FACULTY_ID' , $student->FACULTY_ID)->get();
+            
+            // $departments = Department::where('FACULTY_ID', $student->FACULTY_ID)->get()->pluck('id')->toArray();
+            $courses = Course::whereIn('DEPARTMENT_ID', $departments->pluck('id')->toArray())->get(['id' , 'COURSE_NAME']);
+
+        }
+      
         // return
-        return view('admin.students.new_store', compact('faculites' , 'student' , 'departments'));
+        return view('admin.students.new_store', compact('faculites' , 'student' , 'departments' , 'courses'));
     }
     public function update_student(Request $request , $id)
     {
@@ -73,11 +91,52 @@ class StudentsController extends Controller
         $student->DEPARTMENT_ID = $request->department;
         $student->STUDENT_SSN = $request->snn;
         $student->save();
+        if(request('course_id')){
+            Student_cource_exam::create([ 
+                'STUDENT_ID' => $student->id ,
+                "COURSE_ID"  =>request('course_id') ,
+            ]);
+        }
         session()->flash('updateStudent' , "update student successfully");
         
         return redirect()->route('new.student.index');
         
      
+    }
+    public function getDepartment(Request $request)
+    {
+        $depart_select = '';
+        if ($request->depart)
+            $depart_select = $request->depart;
+        $departments = Department::where('FACULTY_ID', $request->id)->get();
+        // $data = '<option> select department</option>';
+        $data = '';
+        foreach ($departments as $department) {
+            $data .= '<option ';
+        //            if($depart_select ==$department->id)
+        //                $data.= ' selected';
+            $data .= ' value="' . $department->id . '">' . $department->DEPARTMENT_NAME . '</option>';
+        }
+        return $data;
+    }
+    public function getCourses(Request $request)
+    {
+        ////// for select course in import excel sheet
+        
+        $faculty_id = $request->faculty_id;
+        $departments = Department::where('FACULTY_ID', $faculty_id)->get()->pluck('id')->toArray();
+        $courses = Course::whereIn('DEPARTMENT_ID', $departments)->get(['id' , 'COURSE_NAME']);
+        $data = '';
+       
+        $data = '';
+        foreach ($courses as $course) {
+            $data .= '<option ';
+       
+            $data .= ' value="' . $course->id . '">' . $course->COURSE_NAME . '</option>';
+        }
+        return $data;
+        return $courses;
+
     }
     public function registerStudent()
     {
@@ -262,22 +321,7 @@ class StudentsController extends Controller
 
     }//end of destroy
 
-    public function getDepartment(Request $request)
-    {
-        $depart_select = '';
-        if ($request->depart)
-            $depart_select = $request->depart;
-        $departments = Department::where('FACULTY_ID', $request->id)->get();
-        $data = '<option> select department</option>';
-
-        foreach ($departments as $department) {
-            $data .= '<option ';
-//            if($depart_select ==$department->id)
-//                $data.= ' selected';
-            $data .= ' value="' . $department->id . '">' . $department->DEPARTMENT_NAME . '</option>';
-        }
-        return $data;
-    }
+  
     public function getClass(Request $request)
     {
         $class_select = '';

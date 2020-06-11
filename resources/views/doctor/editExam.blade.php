@@ -76,14 +76,27 @@
                                         </div>
                                         <!-- input-group -->
                                     </div>
+                                   
+                                </div>
+                                <div class="row">
                                     <div class="form-group col-lg-4 m-r-5">
-                                        <label>Time Of Exam (Minutes)</label>
+                                        <label class="control-label ">End Date</label>
+                                        <div class="input-group">
+                                            <input type="date" name="end_date" class="form-control"
+                                            value="{{$exam->end_date}}" placeholder="mm/dd/yyyy"  required>
+                                            <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                    class="ti-calendar"></i></span>
+                                        </div>
+                                        <!-- input-group -->
+                                    </div>
+                                    <div class="form-group col-lg-4 m-r-5">
+                                        <label id="examtimelbl">Time Of Exam (Minutes)</label>
                                         <div class="input-group m-b-0">
                                             <div class="bootstrap-timepicker">
-                                                <input name="time" type="text" value="{{$exam->EXAM_DURATION}}" class="form-control">
+                                                <input name="time" type="text" value="{{$exam->EXAM_DURATION}}" class="form-control" required>
                                             </div>
                                             <span class="input-group-addon bg-primary b-0 text-white"><i
-                                                        class="glyphicon glyphicon-time"></i></span>
+                                                    class="glyphicon glyphicon-time"></i></span>
                                         </div>
                                         <!-- input-group -->
                                     </div>

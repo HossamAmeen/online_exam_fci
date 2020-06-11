@@ -1,112 +1,126 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card-box p-b-0">
-                <h4 class="header-title m-t-0 m-b-30">Create Exam</h4>
-                <form id="commentForm" method="post" action="{{route('doctorProfile.exam.store')}}" class="form-horizontal ">
-                    {!! csrf_field() !!}
-                    <div id="rootwizard" class="pull-in">
-                        <ul class="nav nav-tabs navtab-wizard nav-justified bg-muted">
-                            <li class="active"><a href="#first" data-toggle="tab">Exam Header</a></li>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-box p-b-0">
+            <h4 class="header-title m-t-0 m-b-30">Create Exam</h4>
+            <form id="commentForm" method="post" action="{{route('doctorProfile.exam.store')}}"
+                class="form-horizontal ">
+                {!! csrf_field() !!}
+                <div id="rootwizard" class="pull-in">
+                    <ul class="nav nav-tabs navtab-wizard nav-justified bg-muted">
+                        <li class="active"><a href="#first" data-toggle="tab">Exam Header</a></li>
 
-                        </ul>
-                        <div class="tab-content m-b-0 b-0">
-                            <div class="tab-pane fade active in" id="first">
+                    </ul>
+                    <div class="tab-content m-b-0 b-0">
+                        <div class="tab-pane fade active in" id="first">
 
-                                <div class="row">
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label for="sel1"> Exam Name</label>
-                                        <input type="text" name="name" class="form-control select2" required>
-
-                                    </div>
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label for="sel1">Type Of Exam</label>
-                                        <select id='seltype' name='type' class="form-control select2" onchange="changeExamTimeLabel();">
-                                            <option value="1" selected>Quiz</option>
-                                            <option value="2">Midterm</option>
-                                            <option value="3">Final</option>
-                                            <option value="4">Report</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label for="userName"> Exam Points</label>
-                                        <input type="text" name="point" parsley-trigger="change" required placeholder=""
-                                               class="form-control" id="userName">
-                                    </div>
-                                    {{--<div class="form-group col-lg-4 m-r-5">--}}
-                                        {{--<label for="sel1"> Year</label>--}}
-                                        {{--<select class="form-control select2">--}}
-                                            {{--<option value="AK"> 2010-2011</option>--}}
-                                            {{--<option value="HI">2013-2014</option>--}}
-                                        {{--</select>--}}
-                                    {{--</div>--}}
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label>Start Time </label>
-                                        <div class="input-group m-b-15">
-                                            <div class="bootstrap-timepicker">
-                                                <input id="" type="time" name='start_time' class="form-control" required>
-                                            </div>
-                                            <span class="input-group-addon bg-primary b-0 text-white"><i
-                                                        class="glyphicon glyphicon-time"></i></span>
-                                        </div>
-                                        <!-- input-group -->
-                                    </div>
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label>Show Time </label>
-                                        <div class="input-group m-b-15">
-                                            <div class="bootstrap-timepicker">
-                                                <input id="" type="time" name='allow_time' class="form-control" required>
-                                            </div>
-                                            <span class="input-group-addon bg-primary b-0 text-white"><i
-                                                        class="glyphicon glyphicon-time"></i></span>
-                                        </div>
-                                        <!-- input-group -->
-                                    </div>
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label class="control-label ">Start Date</label>
-                                        <div class="input-group">
-                                            <input type="text" name="date" class="form-control" placeholder="mm/dd/yyyy"
-                                                   id="datepicker-autoclose" required>
-                                            <span class="input-group-addon bg-primary b-0 text-white"><i
-                                                        class="ti-calendar"></i></span>
-                                        </div>
-                                        <!-- input-group -->
-                                    </div>
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label id="examtimelbl">Time Of Exam (Minutes)</label>
-                                        <div class="input-group m-b-0">
-                                            <div class="bootstrap-timepicker">
-                                                <input name="time" type="text" class="form-control" required>
-                                            </div>
-                                            <span class="input-group-addon bg-primary b-0 text-white"><i
-                                                        class="glyphicon glyphicon-time"></i></span>
-                                        </div>
-                                        <!-- input-group -->
-                                    </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label for="sel1"> Exam Name</label>
+                                    <input type="text" name="name" class="form-control select2" required>
 
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-lg-4 m-r-5">
-                                        <label for="sel1">Select Courses *</label>
-                                        <select id="courses" class="select2 form-control" name='course_id'  required>
-                                            @foreach(auth()->user()->staff->courses as $course)
-                                                <option value="{{$course->id}}">{{$course->COURSE_NAME}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label for="sel1">Type Of Exam</label>
+                                    <select id='seltype' name='type' class="form-control select2"
+                                        onchange="changeExamTimeLabel();">
+                                        <option value="1" selected>Quiz</option>
+                                        <option value="2">Midterm</option>
+                                        <option value="3">Final</option>
+                                        <option value="4">Report</option>
+                                    </select>
                                 </div>
-                                <label><input type="checkbox" id="camerarequired" name="camerarequired" value="1"/>
-                                 Supervising using camera</label>
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label for="userName"> Exam Points</label>
+                                    <input type="text" name="point" parsley-trigger="change" required placeholder=""
+                                        class="form-control" id="userName">
+                                </div>
+                                {{--<div class="form-group col-lg-4 m-r-5">--}}
+                                {{--<label for="sel1"> Year</label>--}}
+                                {{--<select class="form-control select2">--}}
+                                {{--<option value="AK"> 2010-2011</option>--}}
+                                {{--<option value="HI">2013-2014</option>--}}
+                                {{--</select>--}}
+                                {{--</div>--}}
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label>Start Time </label>
+                                    <div class="input-group m-b-15">
+                                        <div class="bootstrap-timepicker">
+                                            <input id="" type="time" name='start_time' class="form-control" required>
+                                        </div>
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    <!-- input-group -->
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label>Show Time </label>
+                                    <div class="input-group m-b-15">
+                                        <div class="bootstrap-timepicker">
+                                            <input id="" type="time" name='allow_time' class="form-control" required>
+                                        </div>
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    <!-- input-group -->
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label class="control-label ">Start Date</label>
+                                    <div class="input-group">
+                                        <input type="text" name="date" class="form-control" placeholder="mm/dd/yyyy"
+                                            id="datepicker-autoclose" required>
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                class="ti-calendar"></i></span>
+                                    </div>
+                                    <!-- input-group -->
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label class="control-label ">End Date</label>
+                                    <div class="input-group">
+                                        <input type="date" name="end_date" class="form-control"
+                                            placeholder="mm/dd/yyyy" id="datepicker-autoclose" required>
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                class="ti-calendar"></i></span>
+                                    </div>
+                                    <!-- input-group -->
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label id="examtimelbl">Time Of Exam (Minutes)</label>
+                                    <div class="input-group m-b-0">
+                                        <div class="bootstrap-timepicker">
+                                            <input name="time" type="text" class="form-control" required>
+                                        </div>
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i
+                                                class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    <!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 m-r-5">
+                                    <label for="sel1">Select Courses *</label>
+                                    <select id="courses" class="select2 form-control" name='course_id' required>
+                                        @foreach(auth()->user()->staff->courses as $course)
+                                        <option value="{{$course->id}}">{{$course->COURSE_NAME}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                                <br>
-                                <br>
-<!--                                 <div class="row">
+
+                            </div>
+                            <label><input type="checkbox" id="camerarequired" name="camerarequired" value="1" />
+                                Supervising using camera</label>
+
+                            <br>
+                            <br>
+                            <!--                                 <div class="row">
                                     <div class="form-group col-lg-3 m-r-5">
                                         <label for="sel1">Number of Easy questions</label>
                                         <input type="number" name="number_easy_question" class="form-control select2" value="0">
@@ -143,281 +157,300 @@
                                         <input type="number" name="number_define_question" class="form-control select2" value="0">
                                     </div>
                                 </div> -->
-                                <div class="row">
-                                    <div class="form-group col-lg-4 m-r-5" style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
-                                        <label for="sel1">Choose questions</label>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="sel1">Easy</label>
-                                                <input type="number" name="number_choose_easy_question" class="form-control select2" value="0" >
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Meduim</label>
-                                                <input type="number" name="number_choose_meduim_question" class="form-control select2" value="0">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Hard</label>
-                                                <input type="number" name="number_choose_hard_question" class="form-control select2" value="0" >
-                                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 m-r-5"
+                                    style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
+                                    <label for="sel1">Choose questions</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sel1">Easy</label>
+                                            <input type="number" name="number_choose_easy_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Meduim</label>
+                                            <input type="number" name="number_choose_meduim_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Hard</label>
+                                            <input type="number" name="number_choose_hard_question"
+                                                class="form-control select2" value="0">
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-4 m-r-5" style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
-                                        <label for="sel1">True And False questions</label>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="sel1">Easy</label>
-                                                <input type="number" name="number_true_and_false_easy_question" class="form-control select2" value="0" >
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Meduim</label>
-                                                <input type="number" name="number_true_and_false_meduim_question" class="form-control select2" value="0">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Hard</label>
-                                                <input type="number" name="number_true_and_false_hard_question" class="form-control select2" value="0" >
-                                            </div>
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5"
+                                    style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
+                                    <label for="sel1">True And False questions</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sel1">Easy</label>
+                                            <input type="number" name="number_true_and_false_easy_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Meduim</label>
+                                            <input type="number" name="number_true_and_false_meduim_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Hard</label>
+                                            <input type="number" name="number_true_and_false_hard_question"
+                                                class="form-control select2" value="0">
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-4 m-r-5" style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
-                                        <label for="sel1">Write Code questions</label>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="sel1">Easy</label>
-                                                <input type="number" name="number_write_code_easy_question" class="form-control select2" value="0" >
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Meduim</label>
-                                                <input type="number" name="number_write_code_meduim_question" class="form-control select2" value="0">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Hard</label>
-                                                <input type="number" name="number_write_code_hard_question" class="form-control select2" value="0" >
-                                            </div>
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5"
+                                    style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
+                                    <label for="sel1">Write Code questions</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sel1">Easy</label>
+                                            <input type="number" name="number_write_code_easy_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Meduim</label>
+                                            <input type="number" name="number_write_code_meduim_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Hard</label>
+                                            <input type="number" name="number_write_code_hard_question"
+                                                class="form-control select2" value="0">
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-4 m-r-5" style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
-                                        <label for="sel1">Complete questions</label>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="sel1">Easy</label>
-                                                <input type="number" name="number_complete_easy_question" class="form-control select2" value="0" >
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Meduim</label>
-                                                <input type="number" name="number_complete_meduim_question" class="form-control select2" value="0">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Hard</label>
-                                                <input type="number" name="number_complete_hard_question" class="form-control select2" value="0" >
-                                            </div>
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5"
+                                    style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
+                                    <label for="sel1">Complete questions</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sel1">Easy</label>
+                                            <input type="number" name="number_complete_easy_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Meduim</label>
+                                            <input type="number" name="number_complete_meduim_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Hard</label>
+                                            <input type="number" name="number_complete_hard_question"
+                                                class="form-control select2" value="0">
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-4 m-r-5" style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
-                                        <label for="sel1">Define questions</label>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="sel1">Easy</label>
-                                                <input type="number" name="number_define_easy_question" class="form-control select2" value="0" >
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Meduim</label>
-                                                <input type="number" name="number_define_meduim_question" class="form-control select2" value="0">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="sel1">Hard</label>
-                                                <input type="number" name="number_define_hard_question" class="form-control select2" value="0" >
-                                            </div>
+                                </div>
+                                <div class="form-group col-lg-4 m-r-5"
+                                    style="border: 1px solid gray;border-radius: 20px;padding: 10px;">
+                                    <label for="sel1">Define questions</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sel1">Easy</label>
+                                            <input type="number" name="number_define_easy_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Meduim</label>
+                                            <input type="number" name="number_define_meduim_question"
+                                                class="form-control select2" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sel1">Hard</label>
+                                            <input type="number" name="number_define_hard_question"
+                                                class="form-control select2" value="0">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <ul class="pager m-b-0 wizard">
-                                <li class="save "><button type="submit" class="btn btn-success waves-effect waves-light">Save</button>
-                                </li>
-                                {{--<li class="add"><a href="#" class="btn btn-warning waves-effect waves-light"> Add</a>--}}
-                                {{--</li>--}}
-                                {{--<li class="view"><a href="exam.html" class="btn btn-primary waves-effect waves-light">View</a>--}}
-                                {{--</li>--}}
-                                {{--<li class="next"><a href="#" class="btn btn-primary waves-effect waves-light">Next</a>--}}
-                                {{--</li>--}}
-                            </ul>
                         </div>
+
+                        <ul class="pager m-b-0 wizard">
+                            <li class="save "><button type="submit"
+                                    class="btn btn-success waves-effect waves-light">Save</button>
+                            </li>
+                            {{--<li class="add"><a href="#" class="btn btn-warning waves-effect waves-light"> Add</a>--}}
+                            {{--</li>--}}
+                            {{--<li class="view"><a href="exam.html" class="btn btn-primary waves-effect waves-light">View</a>--}}
+                            {{--</li>--}}
+                            {{--<li class="next"><a href="#" class="btn btn-primary waves-effect waves-light">Next</a>--}}
+                            {{--</li>--}}
+                        </ul>
                     </div>
-                </form>
-            </div>
-        </div>
-        <!-- end col -->
-    </div>
-    </div>
-    <!--model show --->
-    <div id="con-show-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title"> Edit Question </h4>
                 </div>
-                <div class="modal-body">
+            </form>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+</div>
+<!--model show --->
+<div id="con-show-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"> Edit Question </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-lg-4 m-r-1">
+                        <label for="sel1" class="m-b-15">Question Type</label>
+                        <select class="form-control select2" id="select-box">
+                            <option value="6"> Choose</option>
+                            <option value="7">true and false</option>
+                            <option value="8">Complete</option>
+                            <option value="9">Write Code</option>
+                            <option value="10">Define</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-7">
+                        <label for="sel1" class="form-label">Select IIOS *</label>
+                        <select class=" form-control select2 select2-multiple" multiple="multiple" required>
+                            <optgroup label="Courses">
+                                <option value="AK">What does HTML stand for What does HTML stand for</option>
+                                <option value="HI">What does HTML stand for</option>
+                                <option value="AKk">for</option>
+                                <option value="HIk"> iisttttttttttttttttttttttttttt</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div id="tab-6" class="tab-content1">
+                    <div class="form-group col-lg-12">
+                        <label for="userName">Enter Question</label>
+                        <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
+                    </div>
                     <div class="row">
-                        <div class="form-group col-lg-4 m-r-1">
-                            <label for="sel1" class="m-b-15">Question Type</label>
-                            <select class="form-control select2" id="select-box">
-                                <option value="6"> Choose</option>
-                                <option value="7">true and false</option>
-                                <option value="8">Complete</option>
-                                <option value="9">Write Code</option>
-                                <option value="10">Define</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-7">
-                            <label for="sel1" class="form-label">Select IIOS *</label>
-                            <select class=" form-control select2 select2-multiple" multiple="multiple" required>
-                                <optgroup label="Courses">
-                                    <option value="AK">What does HTML stand for What does HTML stand for</option>
-                                    <option value="HI">What does HTML stand for</option>
-                                    <option value="AKk">for</option>
-                                    <option value="HIk"> iisttttttttttttttttttttttttttt</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div id="tab-6" class="tab-content1">
-                        <div class="form-group col-lg-12">
-                            <label for="userName">Enter Question</label>
-                            <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-3 m-r-5">
-                                <div class="checkbox checkbox-primary">
+                        <div class="form-group col-lg-3 m-r-5">
+                            <div class="checkbox checkbox-primary">
 
-                                    <input id="checkbox1" type="checkbox">
+                                <input id="checkbox1" type="checkbox">
 
-                                    <label for="checkbox1">
-                                        Enter Choose
-                                        <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                               id="Question">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-3 m-r-5">
-                                <div class="checkbox checkbox-primary">
-
-                                    <input id="checkbox2" type="checkbox">
-
-                                    <label for="checkbox2">
-                                        Enter Choose
-                                        <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                               id="Question">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-3 m-r-5">
-                                <div class="checkbox checkbox-primary">
-
-                                    <input id="checkbox3" type="checkbox">
-
-                                    <label for="checkbox3">
-                                        Enter Choose
-                                        <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                               id="Question">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-3 m-r-5">
-                                <div class="checkbox checkbox-primary">
-
-                                    <input id="checkbox4" type="checkbox">
-
-                                    <label for="checkbox4">
-                                        Enter Choose
-                                        <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                               id="Question">
-                                    </label>
-                                </div>
+                                <label for="checkbox1">
+                                    Enter Choose
+                                    <input type="text" name="nick" parsley-trigger="change" class="form-control"
+                                        id="Question">
+                                </label>
                             </div>
                         </div>
+                        <div class="form-group col-lg-3 m-r-5">
+                            <div class="checkbox checkbox-primary">
 
-                    </div>
+                                <input id="checkbox2" type="checkbox">
 
-                    <div id="tab-7" class="tab-content1">
-                        <div class="form-group col-lg-12">
-                            <label for="userName">Enter Question</label>
-                            <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-3 m-r-5">
-                                <div class="checkbox checkbox-primary">
-
-                                    <input id="checkbox5" type="checkbox">
-
-                                    <label for="checkbox5">
-                                        True
-
-                                    </label>
-                                </div>
+                                <label for="checkbox2">
+                                    Enter Choose
+                                    <input type="text" name="nick" parsley-trigger="change" class="form-control"
+                                        id="Question">
+                                </label>
                             </div>
-                            <div class="form-group col-lg-3 m-r-5">
-                                <div class="checkbox checkbox-primary">
+                        </div>
+                        <div class="form-group col-lg-3 m-r-5">
+                            <div class="checkbox checkbox-primary">
 
-                                    <input id="checkbox6" type="checkbox">
+                                <input id="checkbox3" type="checkbox">
 
-                                    <label for="checkbox6">
-                                        False
+                                <label for="checkbox3">
+                                    Enter Choose
+                                    <input type="text" name="nick" parsley-trigger="change" class="form-control"
+                                        id="Question">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 m-r-5">
+                            <div class="checkbox checkbox-primary">
 
-                                    </label>
-                                </div>
+                                <input id="checkbox4" type="checkbox">
+
+                                <label for="checkbox4">
+                                    Enter Choose
+                                    <input type="text" name="nick" parsley-trigger="change" class="form-control"
+                                        id="Question">
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <div id="tab-8" class="tab-content1">
-                        <div class="form-group col-lg-12">
-                            <label for="userName">Enter Question</label>
-                            <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-3 m-r-5">
-                                <label for="userName">Enter Answer 1</label>
-                                <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                       id="Question">
-                            </div>
-                            <div class="form-group col-lg-3 m-r-5">
-                                <label for="userName">Enter Answer 2</label>
-                                <input type="text" name="nick" parsley-trigger="change" class="form-control"
-                                       id="Question">
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-9" class="tab-content1">
-                        <div class="form-group col-lg-12">
-                            <label for="userName">Enter Question</label>
-                            <textarea class="form-control" rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div id="tab-10" class="tab-content1">
-                        <div class="form-group col-lg-12">
-                            <label for="userName">Enter Question</label>
-                            <textarea class="form-control" rows="5"></textarea>
-                        </div>
-                    </div>
-
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info waves-effect waves-light">Save</button>
+
+                <div id="tab-7" class="tab-content1">
+                    <div class="form-group col-lg-12">
+                        <label for="userName">Enter Question</label>
+                        <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-3 m-r-5">
+                            <div class="checkbox checkbox-primary">
+
+                                <input id="checkbox5" type="checkbox">
+
+                                <label for="checkbox5">
+                                    True
+
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 m-r-5">
+                            <div class="checkbox checkbox-primary">
+
+                                <input id="checkbox6" type="checkbox">
+
+                                <label for="checkbox6">
+                                    False
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div id="tab-8" class="tab-content1">
+                    <div class="form-group col-lg-12">
+                        <label for="userName">Enter Question</label>
+                        <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-3 m-r-5">
+                            <label for="userName">Enter Answer 1</label>
+                            <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
+                        </div>
+                        <div class="form-group col-lg-3 m-r-5">
+                            <label for="userName">Enter Answer 2</label>
+                            <input type="text" name="nick" parsley-trigger="change" class="form-control" id="Question">
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-9" class="tab-content1">
+                    <div class="form-group col-lg-12">
+                        <label for="userName">Enter Question</label>
+                        <textarea class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+                <div id="tab-10" class="tab-content1">
+                    <div class="form-group col-lg-12">
+                        <label for="userName">Enter Question</label>
+                        <textarea class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info waves-effect waves-light">Save</button>
             </div>
         </div>
-
     </div>
-    <!-- /.modal -->
+
+</div>
+<!-- /.modal -->
 @endsection
 @section('script')
 
-    <script type="text/javascript">
-        function changeExamTimeLabel()
+<script type="text/javascript">
+    function changeExamTimeLabel()
         {
 
           var e = document.getElementById("seltype");
@@ -440,12 +473,12 @@
         $(document).ready(function() {
             $('form').parsley();
         });
-    </script>
-    <script>
-        $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
-    </script>
-    <script>
-        jQuery(document).ready(function() {
+</script>
+<script>
+    $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+</script>
+<script>
+    jQuery(document).ready(function() {
             //advance multiselect start
             $('#my_multi_select3').multiSelect({
                 selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
@@ -671,9 +704,9 @@
             alwaysShow: true,
             placement: 'top-left'
         });
-    </script>
-    <script type="text/javascript">
-        $('.dropify').dropify({
+</script>
+<script type="text/javascript">
+    $('.dropify').dropify({
             messages: {
                 'default': 'Drag and drop a file here or click',
                 'replace': 'Drag and drop or click to replace',
@@ -684,9 +717,9 @@
                 'fileSize': 'The file size is too big (1M max).'
             }
         });
-    </script>
-    <script>
-        //hide all tabs first
+</script>
+<script>
+    //hide all tabs first
         $('.tab-content1').hide();
         //show the first tab content
         $('#tab-1').show();
@@ -697,9 +730,9 @@
             //then show the tab content of whatever option value was selected
             $('#' + "tab-" + dropdown).show();
         });
-    </script>
-    <script>
-        function department_ajax(val,depart,id){
+</script>
+<script>
+    function department_ajax(val,depart,id){
             $.ajax({ //Process the form using $.ajax()
                 type      : 'POST', //Method type
                 url       : '{{route('students.getDepartment')}}', //Your form processing file URL
@@ -750,5 +783,5 @@
                 }
             });
         }
-    </script>
+</script>
 @endsection

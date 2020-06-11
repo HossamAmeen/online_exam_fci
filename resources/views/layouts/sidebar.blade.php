@@ -75,8 +75,8 @@
                 <a href="{{route('student.index')}}" class="waves-effect"><i class="fa fa-users" aria-hidden="true"></i>
                     <span> Exams </span> </a>
             </li>
-
-        @else
+        @endif
+        @if(auth()->user()->role==5)
         <li>
             <a href="{{route('new.student.index')}}" class="waves-effect"><i class="fa fa-users" aria-hidden="true"></i>
                 <span> add new student </span> </a>
