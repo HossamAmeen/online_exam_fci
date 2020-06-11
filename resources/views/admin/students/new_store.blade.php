@@ -107,7 +107,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="sel1">Select course *</label>
+                                <label for="sel1">Select course </label>
                                 <select name="course_id" class="form-control select2" id="depart2" >
                                     @foreach ($courses as $item)
                                     <option value="{{null}}" ></option>
