@@ -50,12 +50,18 @@
                             @endforeach --}}
                             
                             @foreach($exams as $k=>$exam)
+                            <?php 
+                            $date1 = new DateTime($exam->end_date);
+                             
+                            $date2 = new DateTime($today_date);
+                            $date3 = new DateTime($exam->date);
+                            ?>
 
-                            @if($today_date <= $exam->end_date && $today_date >= $exam->date )
+                            @if( $date2 <=  $date1 &&$date2 >= $date3 )
                                 <tr class="gradeX">
-                                    <th>{{$exam->EXAM_NAME}}</th>
+                                <th>{{$exam->EXAM_NAME}}</th>
                                     <th> {{$exam->course ? $exam->course->COURSE_NAME : " "}}</th>
-                                    <th>{{$exam->date}}</th>
+                                    <th>{{$exam->date}} ....... </th>
                                     <th class="actions">
                                        
                                             <form action="{{route('student.exam.start',$exam->id)}}" method="post">
@@ -67,8 +73,7 @@
                                             {{--<a href="{{route('student.exam.start',$exam->id)}}"--}}
                                             {{--class="btn btn-primary"> Start</a>--}}
                                     </th>
-                                </tr>
-                              
+                                </tr>     
                             @endif
                         @endforeach
 
@@ -82,7 +87,7 @@
                         @foreach($studentExams as $studentExam)
                         <tr class="gradeX">
                             <th>{{$studentExam->exam ? $studentExam->exam->EXAM_NAME : " "}}</th>
-                            <th> {{$studentExam->result}}</th>
+                            <th> {{$studentExam->exam ?  $studentExam->result >= ( $studentExam->exam->EXAM_TOTAL * 40 / 100 ) ?  "successful" : "Precipitate" : "Not calculated" }}</th>
                         </tr>
                         @endforeach
                     </table>
