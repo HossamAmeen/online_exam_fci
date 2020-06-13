@@ -23,6 +23,7 @@ use App\StudentExamImage;
 use Illuminate\Http\Request;
 use Excel;
 use App\Imports\QuestionImport;
+use App\Exports\ResultExcel;
 class DoctorProfileContoller extends Controller
 {
     public function index()
@@ -896,6 +897,7 @@ class DoctorProfileContoller extends Controller
     {
         $arr=[];
         $arr[]=['Student','Total'];
+        return Excel::download(new ResultExcel($exam->id), 'resultExam.xlsx');
         $student_cource_exam = StudentExam::where('exam_id', $exam->id)->get();
         //        dd($student_cource_exam);
         //        $str = '<table class="table table-responsive table-bordered table-striped"><tr>
