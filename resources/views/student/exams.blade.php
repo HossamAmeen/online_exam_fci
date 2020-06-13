@@ -61,7 +61,7 @@
                                 <tr class="gradeX">
                                 <th>{{$exam->EXAM_NAME}}</th>
                                     <th> {{$exam->course ? $exam->course->COURSE_NAME : " "}}</th>
-                                    <th>{{$exam->date}} ....... </th>
+                                    <th>{{$exam->EXAM_DURATION}}</th>
                                     <th class="actions">
                                        
                                             <form action="{{route('student.exam.start',$exam->id)}}" method="post">
