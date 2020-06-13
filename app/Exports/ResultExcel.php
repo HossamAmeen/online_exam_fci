@@ -32,9 +32,9 @@ class ResultExcel implements FromCollection , WithHeadings ,WithMapping
     {
 
         return [
-           
             'exam',
             'student',
+            'department',
             'result',
             'date',
         ];
@@ -47,6 +47,7 @@ class ResultExcel implements FromCollection , WithHeadings ,WithMapping
         
             $result->exam->EXAM_NAME,
             $result->student->STUDENT_NAME,
+            $result->student->department->DEPARTMENT_NAME,
             $result->result,
             $result->updated_at ,
         ] ;

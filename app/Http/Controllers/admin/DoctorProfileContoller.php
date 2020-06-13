@@ -823,6 +823,7 @@ class DoctorProfileContoller extends Controller
 
     public function showExamResultDetial(Request $request)
     {
+        $student_count = 0 ;
         $student_cource_exam = StudentExam::where('exam_id', $request->id)->get();
         //        dd($student_cource_exam);
       $str= '<div class="editable-responsive"> <table class="table table-striped" id="datatable-editable"><tr>
@@ -835,6 +836,7 @@ class DoctorProfileContoller extends Controller
                 </tr>';
         foreach ($student_cource_exam as $s) {
             //            dd($s->exam);
+            $student_count++ ;
             $stud_ques_ans_choices = Stud_ques_ans_choice::where('exam_id', $request->id)->where('student_id', $s->student->id)->get();
             //            dd($stud_ques_ans_choices);
             $str .= '<tr>
@@ -848,6 +850,9 @@ class DoctorProfileContoller extends Controller
         }
 
         $str .= '</table></div>';
+
+
+        $str .= '<h6> student count : ' . $student_count . "</h6>";
 
         return $str;
     }
