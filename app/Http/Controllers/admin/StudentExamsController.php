@@ -15,7 +15,7 @@ use App\Stud_ques_ans_choice;
 use App\Time;
 use DB;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 class StudentExamsController extends Controller
 {
     public function index()
@@ -32,7 +32,8 @@ class StudentExamsController extends Controller
         $exams = Exam::whereNotIn('id', $exams)->whereIn('COURSE_ID', $courses)->get();
         //dd($exams);
         $studentExams = StudentExam::where('student_id', auth()->user()->student->id)
-        ->where('result', '!=', 'null')->get();
+        ->where('result', '!=', 'null')
+        ->get();
         //dd($studentExams,$exams);
         // return $exams;
         return view('student.exams', compact('exams', 'studentExams', 'today_date'));
@@ -46,8 +47,6 @@ class StudentExamsController extends Controller
         if (!$stude) {
             date_default_timezone_set('Africa/Cairo');
             $time = Time::where('user_id', auth()->user()->id)->where('exam_id', $exam->id)->first();
-
-          
             // dd($time);
             // return $time;
             $start_time = date('G:i');
@@ -63,7 +62,7 @@ class StudentExamsController extends Controller
                 $time->enddate = $endTime;
 
                 $time->save();
-
+                Log::info("start time : " .date("G:i") . " end time " . $endTime );
             } else {
                 $endTime = $time->enddate;
 
@@ -176,6 +175,8 @@ class StudentExamsController extends Controller
                 return view('student.startExam', compact('exam', 'questions', 'start_time', 'endTime', 'time', 'sum_array'));
 
             } else {
+                // return  $time  ;
+                Log::info("student in end time : " . auth()->user()->student->STUDENT_NAME);
                 $answers = Stud_ques_ans_choice::where('student_id', auth()->user()->student->id)->where('exam_id', $exam->id)->get();
 
                 $examQuestions = $exam->questionsExams;
@@ -186,9 +187,9 @@ class StudentExamsController extends Controller
                 }
 
                 $answers = $answers->groupBy('question_id');
-
+                $hasAnswer = 0 ;
                 foreach ($answers as $k => $answer) {
-
+                    $hasAnswer = 1 ;
                     $question = $answer[0]->question;
                     if ($question->QUESTION_TYPE_ID == 1 || $question->QUESTION_TYPE_ID == 2) {
                         $choice = Question_choice::find($answer[0]->choice);
@@ -251,7 +252,7 @@ class StudentExamsController extends Controller
                     $s->result = $your_grade;
                     $s->save();
                 }
-
+                return "<h1> Out of exam time</h1><a href=" .route('student.index') ."> go to home </a>";
                 // echo "<h1>" . $your_grade . "</h1>";
                 // echo 'Exam Ended';
             }

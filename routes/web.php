@@ -206,7 +206,7 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function
 
     });
 });
-Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'studentaffairadmin']], function () {
+Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'studentaffairadmin' ]], function () {
 
 
     Route::prefix('students')->group(function () {
@@ -317,7 +317,7 @@ Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'doctor']], functio
     });
 });
 
-Route::group(['prefix' => '/student', 'middleware' => ['auth', 'student','history']], function () {
+Route::group(['prefix' => '/student', 'middleware' => ['auth', 'student','history' ]], function () { //,'throttle:60,1'
     Route::prefix('exams')->group(function () {
         Route::get('/', 'admin\StudentExamsController@index')->name('student.index');
         Route::any('/start/{exam}', 'admin\StudentExamsController@startExam')->name('student.exam.start');

@@ -1048,8 +1048,6 @@ class DoctorProfileContoller extends Controller
     {
         $studentExam->delete();
         return redirect()->back();
-
-
     }
     public function ilosresult(Exam $exam)
     {
