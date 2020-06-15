@@ -47,7 +47,8 @@ class ResultExcel implements FromCollection , WithHeadings ,WithMapping
         
             $result->exam->EXAM_NAME,
             $result->student->STUDENT_NAME,
-            $result->student->department->DEPARTMENT_NAME,
+            
+            $result->student->department ? $result->student->department->DEPARTMENT_NAME : " not found",
             $result->result,
             $result->updated_at ,
         ] ;
