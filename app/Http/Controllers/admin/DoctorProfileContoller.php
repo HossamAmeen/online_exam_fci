@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Course;
 use App\Exam;
 use App\Faculty;
+use App\Time;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DoctorProfileRequest;
 use App\Ilos;
@@ -1046,7 +1047,13 @@ class DoctorProfileContoller extends Controller
     }
     public function reopenExam(StudentExam $studentExam)
     {
+        $time = Time::where('user_id', $studentExam->student->user->id)->where('exam_id', $studentExam->exam_id)->first();
+        // return $studentExam;
+        // return $time;
+        if(isset($time)) $time->delete();
+
         $studentExam->delete();
+       
         return redirect()->back();
     }
     public function ilosresult(Exam $exam)
