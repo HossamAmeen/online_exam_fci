@@ -68,7 +68,8 @@ class StudentExamsController extends Controller
 
             }
             // dd(date("G:i"), $endTime);
-            if (date("G:i") <= $endTime) {
+     
+            if (time() <= strtotime($endTime)) {
                 session()->put('endTime', $endTime);
                 $student_questions = ExamStudentModule::where('student_id', auth()->user()->student->id)
                     ->where('exam_id', $exam->id)->first();
