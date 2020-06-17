@@ -177,7 +177,7 @@ class StudentExamsController extends Controller
 
             } else {
                 // return  $time  ;
-                Log::info("student in end time : " . auth()->user()->student->STUDENT_NAME);
+                Log::info("student in end time : " . auth()->user()->student->STUDENT_NAME . 'id ' . auth()->user()->student->id );
                 $answers = Stud_ques_ans_choice::where('student_id', auth()->user()->student->id)->where('exam_id', $exam->id)->get();
 
                 $examQuestions = $exam->questionsExams;
