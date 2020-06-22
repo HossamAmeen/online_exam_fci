@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
 
     <!-- App title -->
-    <title>نظام جامعة اسيوط للامتحانات الإلكترونية</title>
+    <title> online Exam System</title>
 
     <!-- App CSS -->
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -33,21 +33,18 @@
 
 </head>
 
-<body style="background-color: rgb(116, 128, 139)">
+<body>
 
 <div class="account-pages"></div>
 <div class="clearfix"></div>
 <div class="wrapper-page">
     <div class="text-center">
-        <a href="#" class="logo">
-            <span >  
-                <span >نظام جامعة اسيوط للامتحانات الإلكترونية</span><i class="zmdi zmdi-layers"></i></span>
-        </a>
+        <a href="index.html" class="logo"><span> <span>تسجيل دخول الامتحان</span><i class="zmdi zmdi-layers"></i></a>
 
     </div>
     <div class="m-t-40 card-box">
         <div class="text-center">
-            <h4 class="text-uppercase font-bold m-b-0"> <span  class="logo"> تسجيل الدخول </span></h4>
+            <h4 class="text-uppercase font-bold m-b-0">تسجيل الدخول</h4>
         </div>
         <div class="panel-body">
             <form class="form-horizontal m-t-20" method="post" action="{{ route('login') }}">

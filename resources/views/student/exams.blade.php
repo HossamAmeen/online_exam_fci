@@ -87,7 +87,7 @@
                         @foreach($studentExams as $studentExam)
                         <tr class="gradeX">
                             <th>{{$studentExam->exam ? $studentExam->exam->EXAM_NAME : " "}}</th>
-                            <th> {{$studentExam->exam ?  $studentExam->result >= ( $studentExam->exam->EXAM_TOTAL * 35 / 100 ) ?  "ناجح" : "راسب" : "Not calculated" }}</th>
+                            <th> {{$studentExam->exam ?  $studentExam->result >= ( $studentExam->exam->EXAM_TOTAL * 50 / 100 ) ?  "ناجح" : "راسب" : "Not calculated" }}</th>
                         </tr>
                         @endforeach
                     </table>
