@@ -14,20 +14,20 @@
                         <h4 class="faculty-name m-t-5"> {{$exam->course->department->faculity->FACULTY_NAME}}
 
                         </h4>
-                      </h4>
-                      @if($exam->type==1)
-                      <p class="m-t-5"> Quiz</p>
-                      @endif
-                      @if($exam->type==2)
-                      <p class="m-t-5"> Midterm</p>
-                      @endif
-                      @if($exam->type==3)
-                      <p class="m-t-5"> Final</p>
-                      @endif
-                      @if($exam->type==4)
-                      <p class="m-t-5"> Report</p>
-                      @endif
-                      <span class=""><strong>Date: </strong> {{$exam->date}}</span>
+                        </h4>
+                        @if($exam->type==1)
+                        <p class="m-t-5"> Quiz</p>
+                        @endif
+                        @if($exam->type==2)
+                        <p class="m-t-5"> Midterm</p>
+                        @endif
+                        @if($exam->type==3)
+                        <p class="m-t-5"> Final</p>
+                        @endif
+                        @if($exam->type==4)
+                        <p class="m-t-5"> Report</p>
+                        @endif
+                        <span class=""><strong>Date: </strong> {{$exam->date}}</span>
                         <span class="m-l-15"><strong>Time: </strong> <span class="label label-pink">
 
                                 <?php
@@ -57,71 +57,71 @@
                         <?php
                                 $i=1;
                             ?>
-                            @if($exam->type==4)
-                            <div class="col-md-12 question">
-                                <div class="question-number">
-
-                                    <p>Report <span>[100] </span> :</p>
-                                </div>
-                                <div>
-                                    <p class="question-title m-t-20">
-                                        <span>Please, upload your academic essay as single word or PDF file.</span>
-                                    </p>
-                                        <div class="col-md-11" style="margin-bottom: 30px">
-                                            <div class="dropdown pull-right">
-                                            </div>
-
-                                            <input type="file" name="import_file" class="dropify" data-max-file-size="10M"/>
-                                        </div>
-                                  </div>
-                                </div>
-                            @endif
-                        @foreach($questions as $k=>$question)
-
-                        @if($k==1)
+                        @if($exam->type==4)
                         <div class="col-md-12 question">
                             <div class="question-number">
-                                <p>Question {{$i}} <span>[{{$question->sum('POINTS')}}] </span> :</p>
+
+                                <p>Report <span>[100] </span> :</p>
                             </div>
                             <div>
                                 <p class="question-title m-t-20">
-                                    <span> </span> choose
+                                    <span>Please, upload your academic essay as single word or PDF file.</span>
                                 </p>
-
-                                @foreach($question as $j=>$q)
-                                <div class="row question-body m-t-20">
-                                    <div class="col-md-12">
-                                        <span> {{$j+1}}:{!!$q->QUESTION_TEXT!!}</span>
+                                <div class="col-md-11" style="margin-bottom: 30px">
+                                    <div class="dropdown pull-right">
                                     </div>
-                                    @if(isset($q->image))
-                                    <div class="col-md-12">
-                                        <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
-                                    </div>
-                                    @endif
-                                    @foreach($q->choices as $kk=>$choice)
-                                    <div class="col-md-3">
 
-
-                                        <div class="radio radio-custom ">
-                                            <input type="radio" name="choice_{{$q->id}}[]" id="radio03"
-                                                value="{{$choice->id}}">
-                                            <label for="radio03">
-                                                {{$choice->QUESTION_CHOICE_TEXT}}
-                                            </label>
-                                        </div>
-                                        @if(isset($choice->image))
-                                        <div class="radio radio-custom ">
-                                            <img src="{{asset($choice->image->path)}}" style="width:100%;height:auto;">
-                                        </div>
-                                        @endif
-
-                                    </div>
-                                    @endforeach
+                                    <input type="file" name="import_file" class="dropify" data-max-file-size="10M" />
                                 </div>
-                                @endforeach
-
                             </div>
                         </div>
+                        @endif
+                        @foreach($questions as $k=>$question)
+
+                        @if($k==1)
+                            <div class="col-md-12 question">
+                                <div class="question-number">
+                                    <p>Question {{$i}} <span>[{{$question->sum('POINTS')}}] </span> :</p>
+                                </div>
+                                <div>
+                                    <p class="question-title m-t-20">
+                                        <span> </span> choose
+                                    </p>
+
+                                    @foreach($question as $j=>$q)
+                                    <div class="row question-body m-t-20">
+                                        <div class="col-md-12">
+                                            <span> {{$j+1}}:{!!$q->QUESTION_TEXT!!}</span>
+                                        </div>
+                                        @if(isset($q->image))
+                                        <div class="col-md-12">
+                                            <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
+                                        </div>
+                                        @endif
+                                        @foreach($q->choices as $kk=>$choice)
+                                        <div class="col-md-3">
+
+
+                                            <div class="radio radio-custom ">
+                                                <input type="radio" name="choice_{{$q->id}}[]" id="radio03"
+                                                    value="{{$choice->id}}">
+                                                <label for="radio03">
+                                                    {{$choice->QUESTION_CHOICE_TEXT}}
+                                                </label>
+                                            </div>
+                                            @if(isset($choice->image))
+                                            <div class="radio radio-custom ">
+                                                <img src="{{asset($choice->image->path)}}" style="width:100%;height:auto;">
+                                            </div>
+                                            @endif
+
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    @endforeach
+
+                                </div>
+                            </div>
 
                         @endif
 
@@ -142,7 +142,7 @@
 
 
                                     </div>
-									 @if(isset($q->image))
+                                    @if(isset($q->image))
                                     <div class="col-md-12">
                                         <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
                                     </div>
@@ -189,7 +189,7 @@
 
                                     </div>
 
-									 @if(isset($q->image))
+                                    @if(isset($q->image))
                                     <div class="col-md-12">
                                         <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
                                     </div>
@@ -217,7 +217,6 @@
                                 @endforeach
                             </div>
                         </div>
-
                         @endif
                         @if($k==4)
                         <div class="col-md-12 question">
@@ -236,12 +235,12 @@
 
                                     <div class="form-group">
                                         <label class="control-label">{{$j+1}}:{!!$q->QUESTION_TEXT!!}</label>
-                                         @if(isset($q->image))
-                                    <div class="col-md-12">
-                                        <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
-                                    </div>
-                                    @endif
-										<div class="">
+                                        @if(isset($q->image))
+                                        <div class="col-md-12">
+                                            <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
+                                        </div>
+                                        @endif
+                                        <div class="">
                                             <textarea required="" name="choice_{{$q->id}}[]" class="form-control"
                                                 data-parsley-id="50">
 
@@ -275,12 +274,12 @@
 
                                     <div class="form-group">
                                         <label class="control-label">{{$j+1}}:{!!$q->QUESTION_TEXT!!}</label>
-                                         @if(isset($q->image))
-                                    <div class="col-md-12">
-                                        <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
-                                    </div>
-                                    @endif
-										<div class="">
+                                        @if(isset($q->image))
+                                        <div class="col-md-12">
+                                            <img src="{{asset($q->image->path)}}" style="width:100%;height:auto;">
+                                        </div>
+                                        @endif
+                                        <div class="">
                                             <textarea onfocusout="saveAnswer()" required="" name="choice_{{$q->id}}[]"
                                                 class="form-control" data-parsley-id="50">
 
@@ -315,7 +314,8 @@
                     <hr>
                     <div class="hidden-print">
                         <div class="pull-right">
-                          <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i class="fa fa-print"></i></a>
+                            <a href="javascript:window.print()" class="btn btn-inverse waves-effect waves-light"><i
+                                    class="fa fa-print"></i></a>
                             <a href="{{route('doctorProfile.index')}}"
                                 class="btn btn-inverse waves-effect waves-light">Back</a>
 

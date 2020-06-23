@@ -63,6 +63,7 @@ class StudentExamsController extends Controller
 
                 $time->save();
                 Log::info("start time : " .date("G:i") . " end time " . $endTime );
+                Log::info("student : " . auth()->user()->student->STUDENT_NAME . ' id : ' . auth()->user()->student->id );
             } else {
                 $endTime = $time->enddate;
 
@@ -142,15 +143,7 @@ class StudentExamsController extends Controller
 
                     $exam_questions = QuestionExam::where('exam_id', $exam->id)->get()->pluck('question_id');
 
-                    // foreach($exam_questions as $question)
-                    // {
-                    //     $student_exam = new ExamStudentModule();
-                    //     $student_exam->student_id = auth()->user()->student->id ;
-                    //     $student_exam->exam_id = $exam->id;
-                    //     $student_exam->question_id = $question;
-                    //     $student_exam->save();
-
-                    // }
+                  
                     $questions = $exam->questionsExams;
                     if ($questions) {
                         $questions = Question::orderBy(\DB::raw('RAND()'))->whereIn('id', $exam_questions)->get();
@@ -177,7 +170,8 @@ class StudentExamsController extends Controller
 
             } else {
                 // return  $time  ;
-                Log::info("student in end time : " . auth()->user()->student->STUDENT_NAME . 'id ' . auth()->user()->student->id );
+                Log::info("start time : " .date("G:i") . " end time " . $endTime );
+                Log::info("student in end time : " . auth()->user()->student->STUDENT_NAME . ' id : ' . auth()->user()->student->id );
                 $answers = Stud_ques_ans_choice::where('student_id', auth()->user()->student->id)->where('exam_id', $exam->id)->get();
 
                 $examQuestions = $exam->questionsExams;
@@ -265,32 +259,19 @@ class StudentExamsController extends Controller
     public function answerExam(Request $request, Exam $exam)
     {
         Stud_ques_ans_choice::where('student_id', auth()->user()->student->id)->where('exam_id', $exam->id)->delete();
-        //        foreach ($Stud_ques_ans_choices as $r)
-        //        {
-        //            $r->delete();
-        //        }
-        //        $questions=$exam->questions;
+        
         foreach ($exam->questionsExams as $question) {
             $choices = 'choice_' . $question->id;
             if ($request->$choices) {
                 foreach ($request->$choices as $ch) {
-            //                    if($Stud_ques_ans_choice)
-                    //                    {
-                    ////                        $Stud_ques_ans_choice = new Stud_ques_ans_choice();
-                    //                        $Stud_ques_ans_choice->student_id = auth()->user()->student->id;
-                    //                        $Stud_ques_ans_choice->exam_id = $exam->id;
-                    //                        $Stud_ques_ans_choice->question_id = $question->id;
-                    //                        $Stud_ques_ans_choice->choice = $ch;
-                    //                        $Stud_ques_ans_choice->save();
-                    //                    }else
-                    //                    {
+           
                     $Stud_ques_ans_choice = new Stud_ques_ans_choice();
                     $Stud_ques_ans_choice->student_id = auth()->user()->student->id;
                     $Stud_ques_ans_choice->exam_id = $exam->id;
                     $Stud_ques_ans_choice->question_id = $question->id;
                     $Stud_ques_ans_choice->choice = $ch;
                     $Stud_ques_ans_choice->save();
-        //                    }
+        
 
                 }
             }
