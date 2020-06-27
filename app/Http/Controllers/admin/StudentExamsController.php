@@ -39,7 +39,23 @@ class StudentExamsController extends Controller
         return view('student.exams', compact('exams', 'studentExams', 'today_date'));
 
     }
+    public function getCurrentTimeInMilliseconds()
+    {
+        $string = "00:38:42,689";
+        $string = date('H:i:s,u');
+        $time   = explode(":", $string);
 
+        $hour   = $time[0] * 60 * 60 * 1000;
+        $minute = $time[1] * 60 * 1000;
+
+        $second = explode(",", $time[2]);
+        $sec    = $second[0] * 1000;
+        $milisec= $second[1];
+
+        $result = $hour + $minute + $sec + $milisec;
+
+        return $result;
+    }
     public function startExam(Exam $exam)
     {
 
@@ -53,8 +69,9 @@ class StudentExamsController extends Controller
             if (!$time) {
                 // return "test time";
                 $start_time = date('G:i');
-                $endTime = date("G:i", strtotime('+' . $exam->EXAM_DURATION . ' minutes', strtotime($start_time)));
-
+                $endTime = date("Y-m-d G:i", strtotime('+' . $exam->EXAM_DURATION . ' minutes', strtotime($start_time)));
+                // $endTime = date("Y-m-d G:i",strtotime($endTime) );
+                // $endTime2 = date("Y-m-d G:i", strtotime('+' . $exam->EXAM_DURATION . ' minutes', strtotime($start_time)));
                 $time = new Time();
                 $time->user_id = auth()->user()->id;
                 $time->exam_id = $exam->id;
@@ -70,7 +87,8 @@ class StudentExamsController extends Controller
             }
             // dd(date("G:i"), $endTime);
             // if(date("G:i") <= $endTime){
-            if (time() <= strtotime($endTime)) {
+                
+            if (strtotime(date("G:i")) <= strtotime($endTime)) {
                 session()->put('endTime', $endTime);
                 $student_questions = ExamStudentModule::where('student_id', auth()->user()->student->id)
                     ->where('exam_id', $exam->id)->first();
@@ -170,6 +188,7 @@ class StudentExamsController extends Controller
 
             } else {
                 // return  $time  ;
+                Log::info("start time() : " . time() . " end time " .  strtotime($endTime) );
                 Log::info("start time : " .date("G:i") . " end time " . $endTime );
                 Log::info("student in end time : " . auth()->user()->student->STUDENT_NAME . ' id : ' . auth()->user()->student->id );
                 $answers = Stud_ques_ans_choice::where('student_id', auth()->user()->student->id)->where('exam_id', $exam->id)->get();
